@@ -1,0 +1,30 @@
+* {
+  margin-top: 2%;
+}
+.admin-container {
+  display: flex;
+  justify-content: center;
+  justify-content: space-around;
+}
+.ligth-control {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 20vh;
+}
+.ligth-control-element {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.coardinates-control {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 20vh;
+}
+.coardinates-control-element {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
