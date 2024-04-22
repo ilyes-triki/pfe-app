@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
 import { db as fdb } from '../../config/firebase-config';
-import { getDatabase, ref, set, push, get } from 'firebase/database';
+import { getDatabase, ref, set, push, get, off } from 'firebase/database';
+import Navbar from '../../elements/navbar/Navbar.js';
+import Footer from '../../elements/footer/Footer.js';
+
 import app from '../../config/firebase-config';
 import MapElement from './MapElement.js';
-import { markers, storeMarker } from './mapConfig';
+
 import './AdminPage.css';
 
 const AdminPanel = () => {
@@ -30,12 +33,11 @@ const AdminPanel = () => {
   useEffect(() => {
     console.log(markers);
   }, [markers]);
-  let [monotone, setMonotone] = useState();
-  let [ldrValue, setLdrValue] = useState();
-  let [ldrVoltage, setLdrVoltage] = useState();
+  let [update, setUpdate] = useState();
+  let [mode, setmode] = useState();
+  let [onOff, setonOff] = useState();
   let [lantitude, setLantitude] = useState();
   let [altitude, setAltitude] = useState();
-  let [markersData, setMarkersData] = useState(markers);
 
   const db = getDatabase(app);
 
@@ -44,89 +46,56 @@ const AdminPanel = () => {
     const snapShot = await get(dbRef);
 
     if (snapShot.exists()) {
-      setLdrValue(snapShot.val().mode);
-      setLdrVoltage(snapShot.val().updated);
-    }
-  };
-  const switchMode = async () => {
-    const dbRef = ref(db, 'capteur');
-
-    set(dbRef, {
-      ldrValue: ldrValue,
-      ldrVoltage,
-      monotone: !monotone,
-    });
-    setMonotone(!monotone);
-  };
-  const addPoint = () => {
-    const regex = /^[0-9.]+$/;
-    if (
-      altitude &&
-      lantitude &&
-      regex.test(lantitude) &&
-      regex.test(altitude)
-    ) {
-      setLantitude('');
-      setAltitude('');
-      storeMarker({
-        marker: {
-          id: markers.length,
-          lan: lantitude,
-          alt: altitude,
-        },
-      });
-      setMarkersData(markers);
-    } else {
-      alert('the input needs to be numerical');
+      setUpdate(snapShot.val().updated);
+      setmode(snapShot.val().mode);
+      setonOff(snapShot.val().onOff);
     }
   };
 
-  console.log(markersData);
-  console.log(lantitude, altitude);
+  const addPoint = () => {};
 
   return (
     <div className="admin-container">
-      <div className="ligth-control">
-        <p className="ligth-control-element">
-          ldrValue : <input type="text" value={ldrValue} />{' '}
-        </p>
-        <p className="ligth-control-element">
-          ldrVoltage : <input type="text" value={ldrVoltage} />{' '}
-        </p>
-        <p className="ligth-control-element">
-          mode monotone : <input type="text" value={monotone} /> change monotone
-          to :{' '}
-          {monotone ? (
-            <button onClick={switchMode}>off</button>
-          ) : (
-            <button onClick={switchMode}>on</button>
-          )}
-        </p>
-        <button onClick={fetchData}>Fetch data</button>
-      </div>
-      <div className="coardinates-control">
-        <p className="coardinates-control-element">
-          altitude :{' '}
-          <input
-            type="text"
-            value={altitude}
-            onChange={(e) => setAltitude(e.target.value)}
-          />{' '}
-        </p>
-        <p className="coardinates-control-element">
-          lantitude :{' '}
-          <input
-            type="text"
-            value={lantitude}
-            onChange={(e) => setLantitude(e.target.value)}
-          />{' '}
-        </p>
-        <button onClick={addPoint}>Add</button>
-      </div>
+      <Navbar />
+      <div className="panels-container">
+        {/* Ligth control panel */}
+        <div className="ligth-control">
+          <p className="ligth-control-element">
+            Please choose the operating mode to use :
+          </p>
 
-      <MapElement />
+          <button onClick={fetchData}>Fetch data</button>
+        </div>
+        {/* coardinates control panel */}
+
+        <div className="coardinates-control">
+          <p className="coardinates-control-element">
+            altitude :{' '}
+            <input
+              type="text"
+              value={altitude}
+              onChange={(e) => setAltitude(e.target.value)}
+            />{' '}
+          </p>
+          <p className="coardinates-control-element">
+            lantitude :{' '}
+            <input
+              type="text"
+              value={lantitude}
+              onChange={(e) => setLantitude(e.target.value)}
+            />{' '}
+          </p>
+          <button onClick={addPoint}>Add</button>
+        </div>
+
+        <MapElement />
+      </div>
+      <div className="footer">
+        <Footer />
+      </div>
     </div>
   );
 };
 
 export default AdminPanel;
+// 1 monotone / 2 :monotone specific / 3 :specific on / 4 : specific off / 5 : all on / 6 : all off

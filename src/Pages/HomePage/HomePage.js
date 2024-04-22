@@ -1,13 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Navbar from '../../elements/navbar/Navbar.js';
 import './HomePage.css';
 const HomePage = () => {
   return (
     <div>
-      pfe project
-      <Link to={'/admin'}>
-        <button>admin page</button>
-      </Link>
+      <Navbar />
     </div>
   );
 };
