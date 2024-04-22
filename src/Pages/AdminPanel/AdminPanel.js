@@ -8,22 +8,28 @@ import { markers, storeMarker } from './mapConfig';
 import './AdminPage.css';
 
 const AdminPanel = () => {
+  const [markers, setMarkers] = useState([]);
   useEffect(() => {
     const fetchMarkers = async () => {
-      const docRef = collection(fdb, 'markers');
       try {
-        const docSnap = await getDocs(docRef);
-        if (docSnap.exists) {
-          console.log('Document data:', docSnap.data());
-        } else {
-          console.log('nothing !');
-        }
+        const markersRef = collection(fdb, 'markers');
+        const snapshot = await getDocs(markersRef);
+        const markerData = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setMarkers(markerData);
       } catch (error) {
-        console.error(error);
+        console.error('Error fetching markers:', error);
       }
     };
+
     fetchMarkers();
+    fetchData();
   }, []);
+  useEffect(() => {
+    console.log(markers);
+  }, [markers]);
   let [monotone, setMonotone] = useState();
   let [ldrValue, setLdrValue] = useState();
   let [ldrVoltage, setLdrVoltage] = useState();
@@ -34,13 +40,12 @@ const AdminPanel = () => {
   const db = getDatabase(app);
 
   const fetchData = async () => {
-    const dbRef = ref(db, 'capteur');
+    const dbRef = ref(db, 'options');
     const snapShot = await get(dbRef);
 
     if (snapShot.exists()) {
-      setLdrValue(snapShot.val().ldrValue);
-      setLdrVoltage(snapShot.val().ldrVoltage);
-      setMonotone(snapShot.val().monotone);
+      setLdrValue(snapShot.val().mode);
+      setLdrVoltage(snapShot.val().updated);
     }
   };
   const switchMode = async () => {
