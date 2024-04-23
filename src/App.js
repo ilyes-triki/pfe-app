@@ -4,6 +4,8 @@ import LoginPage from './Pages/LoginPage/LoginPage.js';
 import AdminPanel from './Pages/AdminPanel/AdminPanel.js';
 import HomePage from './Pages/HomePage/HomePage.js';
 import NotFound from './Pages/notFoundPage/NotFound.js';
+import Footer from './elements/footer/Footer.js';
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -23,7 +25,12 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <div>
+      <RouterProvider router={router} />
+      <Footer />
+    </div>
+  );
 }
 
 export default App;

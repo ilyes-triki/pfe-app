@@ -1,0 +1,43 @@
+.mode-selector {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.mode-selector label {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+/* Style for radio buttons */
+.mode-selector input[type='radio'] {
+  display: none; /* Hide the actual radio buttons */
+}
+
+/* Style for custom radio buttons */
+.mode-selector input[type='radio'] + label::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #333;
+  margin-right: 5px;
+}
+
+/* Style for checked custom radio buttons */
+.mode-selector input[type='radio']:checked + label::before {
+  background-color: #333;
+}
+
+@media (max-width: 768px) {
+  .mode-selector {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .mode-selector label {
+    margin-right: 15px;
+    margin-bottom: 10px;
+  }
+}
