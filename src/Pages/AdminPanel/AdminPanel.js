@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
-import { db as fdb } from '../../config/firebase-config';
 import { getDatabase, ref, set, push, get } from 'firebase/database';
 import app from '../../config/firebase-config';
 import MapElement from './MapElement.js';
 import { markers, storeMarker } from './mapConfig';
+import { collection, getDocs } from 'firebase/firestore';
+import { db as fdb } from '../../config/firebase-config';
 import './AdminPage.css';
 
 const AdminPanel = () => {
-  const [markers, setMarkers] = useState([]);
+  let [markers, setMarkers] = useState([]);
+
   useEffect(() => {
     const fetchMarkers = async () => {
       try {
@@ -23,13 +24,12 @@ const AdminPanel = () => {
         console.error('Error fetching markers:', error);
       }
     };
-
     fetchMarkers();
-    fetchData();
   }, []);
-  useEffect(() => {
-    console.log(markers);
-  }, [markers]);
+  useEffect(() => {}, [markers]);
+
+  console.log(markers);
+
   let [monotone, setMonotone] = useState();
   let [ldrValue, setLdrValue] = useState();
   let [ldrVoltage, setLdrVoltage] = useState();
@@ -80,9 +80,6 @@ const AdminPanel = () => {
       alert('the input needs to be numerical');
     }
   };
-
-  console.log(markersData);
-  console.log(lantitude, altitude);
 
   return (
     <div className="admin-container">
