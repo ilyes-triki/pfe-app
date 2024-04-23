@@ -6,12 +6,11 @@
   flex-direction: column;
 }
 .panels-container {
-  margin-top: 10%;
-  margin-bottom: 10%;
-
+  height: 100vh;
   display: flex;
   justify-content: center;
   justify-content: space-around;
+  align-items: center;
 }
 .ligth-control {
   display: flex;
@@ -35,6 +34,3 @@
   flex-direction: column;
   width: 100%;
 }
-/* .footer {
-  align-content: flex-end;
-} */

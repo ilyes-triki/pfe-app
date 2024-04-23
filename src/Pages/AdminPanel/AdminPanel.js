@@ -17,6 +17,8 @@ const AdminPanel = () => {
   let [mode, setmode] = useState();
   let [lantitude, setLantitude] = useState();
   let [altitude, setAltitude] = useState();
+  let [boardNum, setBoardNum] = useState();
+
   const db = getDatabase(app);
 
   useEffect(() => {
@@ -60,15 +62,24 @@ const AdminPanel = () => {
           <div className="ligth-control-element">
             {' '}
             {mode !== undefined ? (
-              <ModeSelector initialMode={mode} />
+              <ModeSelector initialMode={mode} coardinates={markers} />
             ) : (
               'fetching data ...'
             )}{' '}
           </div>
         </div>
+        <MapElement />
         {/* coardinates control panel */}
-        {/* 
+
         <div className="coardinates-control">
+          <p className="coardinates-control-element">
+            board number :{' '}
+            <input
+              type="text"
+              value={boardNum}
+              onChange={(e) => setBoardNum(e.target.value)}
+            />{' '}
+          </p>
           <p className="coardinates-control-element">
             altitude :{' '}
             <input
@@ -87,12 +98,9 @@ const AdminPanel = () => {
           </p>
           <button onClick={addPoint}>Add</button>
         </div>
-
-        <MapElement /> */}
       </div>
     </div>
   );
 };
 
 export default AdminPanel;
-// 1 monotone / 2 :monotone specific / 3 :specific on / 4 : specific off / 5 : all on / 6 : all off

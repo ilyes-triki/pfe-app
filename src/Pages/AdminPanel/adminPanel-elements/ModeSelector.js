@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { getDatabase, ref, set, update } from 'firebase/database';
+import Popup from './Popup.js';
 import './ModeSelector.css';
 
-const ModeSelector = ({ initialMode }) => {
+const ModeSelector = ({ initialMode, coardinates }) => {
   const [selectedMode, setSelectedMode] = useState(`${initialMode}`);
   const [descriptionsVisible, setDescriptionsVisible] = useState(true);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const db = getDatabase();
-  const dbRef = ref(db, 'options');
 
   const handleModeChange = (event) => {
     setSelectedMode(event.target.value);
     setDescriptionsVisible(true);
   };
+  const togglePopup = () => {
+    setIsPopupOpen(!isPopupOpen);
+  };
   const updateModeInDatabase = async () => {
     try {
-      await update(ref(db, 'options'), { mode: selectedMode });
+      await update(ref(db, 'options'), { mode: selectedMode, updated: true });
       console.log('Mode updated in the database:', selectedMode);
       alert('Mode updated successfully!');
     } catch (error) {
@@ -25,6 +29,7 @@ const ModeSelector = ({ initialMode }) => {
   return (
     <div>
       <h2>Select Mode:</h2>
+      {/*  1 monotone  */}
       <div>
         <input
           type="radio"
@@ -39,6 +44,7 @@ const ModeSelector = ({ initialMode }) => {
           <p>Description for Mode 2</p>
         )}
       </div>
+      {/*   2 :monotone specific */}
       <div>
         <input
           type="radio"
@@ -50,9 +56,18 @@ const ModeSelector = ({ initialMode }) => {
         />
         <label htmlFor="mode2">Mode 2</label>
         {selectedMode === '2' && descriptionsVisible && (
-          <p>Description for Mode 2</p>
+          <div className="description">
+            <p>Description for Mode 2</p>
+            <button onClick={togglePopup}>Select Boards</button>
+            <Popup
+              markers={coardinates}
+              isOpen={isPopupOpen}
+              onClose={togglePopup}
+            />
+          </div>
         )}
       </div>
+      {/*   3 :specific on  */}
       <div>
         <input
           type="radio"
@@ -64,9 +79,18 @@ const ModeSelector = ({ initialMode }) => {
         />
         <label htmlFor="mode3">Mode 3</label>
         {selectedMode === '3' && descriptionsVisible && (
-          <p>Description for Mode 2</p>
+          <div className="description">
+            <p>Description for Mode 2</p>
+            <button onClick={togglePopup}>Select Boards</button>
+            <Popup
+              markers={coardinates}
+              isOpen={isPopupOpen}
+              onClose={togglePopup}
+            />
+          </div>
         )}
       </div>
+      {/* 4 : specific off  */}
       <div>
         <input
           type="radio"
@@ -78,9 +102,18 @@ const ModeSelector = ({ initialMode }) => {
         />
         <label htmlFor="mode4">Mode 4</label>
         {selectedMode === '4' && descriptionsVisible && (
-          <p>Description for Mode 2</p>
+          <div className="description">
+            <p>Description for Mode 2</p>
+            <button onClick={togglePopup}>Select Boards</button>
+            <Popup
+              markers={coardinates}
+              isOpen={isPopupOpen}
+              onClose={togglePopup}
+            />
+          </div>
         )}
       </div>
+      {/* 5 : all on */}
       <div>
         <input
           type="radio"
@@ -95,6 +128,7 @@ const ModeSelector = ({ initialMode }) => {
           <p>Description for Mode 2</p>
         )}
       </div>
+      {/*   6 : all off */}
       <div>
         <input
           type="radio"
