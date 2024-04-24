@@ -3,25 +3,18 @@ import { getDatabase, ref, set } from 'firebase/database';
 import app from '../../../config/firebase-config.js';
 
 import './Popup.css';
+import CoardinatesList from './CoardinatesList.js';
 
-const Popup = ({ isOpen, onClose, markers }) => {
+const Popup = ({ isOpen, onClose, markers, boards }) => {
   const [selectedItems, setSelectedItems] = useState([]);
   const db = getDatabase(app);
+  console.log('from mode popup', boards);
 
   useEffect(() => {
     if (!isOpen && selectedItems.length > 0) {
-      setSelectedItems([]);
+      // setSelectedItems([]);
     }
-  }, [isOpen, selectedItems, markers]);
-
-  const handleCheckboxChange = (id) => {
-    const selectedIndex = selectedItems.indexOf(id);
-    if (selectedIndex === -1) {
-      setSelectedItems([...selectedItems, id]);
-    } else {
-      setSelectedItems(selectedItems.filter((item) => item !== id));
-    }
-  };
+  }, [isOpen, selectedItems]);
 
   const handleAdd = () => {
     const boardsRef = ref(db, 'options/boards');
@@ -35,24 +28,20 @@ const Popup = ({ isOpen, onClose, markers }) => {
       .catch((error) => {
         console.error('Error adding items to Realtime Database:', error);
       });
+    onClose();
+    window.location.reload();
   };
   return (
     <div className={`popup ${isOpen ? 'active' : ''}`}>
       <div className="popup-content">
         <h2>Popup Title</h2>
+        <CoardinatesList
+          items={selectedItems}
+          setItems={setSelectedItems}
+          data={markers}
+          rtdbboards={boards}
+        />
 
-        <ul>
-          {markers.map((item) => (
-            <li key={item.id}>
-              <input
-                type="checkbox"
-                checked={selectedItems.includes(item.id)}
-                onChange={() => handleCheckboxChange(item.id)}
-              />
-              {item.id}: {item.alt}, {item.lan}
-            </li>
-          ))}
-        </ul>
         {selectedItems.length > 0 && (
           <button onClick={handleAdd}>Add Boards</button>
         )}

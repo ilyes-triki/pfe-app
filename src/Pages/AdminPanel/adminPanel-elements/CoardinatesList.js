@@ -1,25 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import { markers } from './mapConfig';
+import React from 'react';
 
-const CoardinatesList = () => {
-  let [markers, setMarkers] = useState([]);
-
-  const handleDelete = (id) => {
-    const updatedData = markers.filter((item) => item.marker.id !== id);
-    setMarkers(updatedData);
+const CoardinatesList = ({ items, setItems, data, boards }) => {
+  const handleCheckboxChange = (id) => {
+    const selectedIndex = items.indexOf(id);
+    if (selectedIndex === -1) {
+      setItems([...items, id]);
+    } else {
+      setItems(items.filter((item) => item !== id));
+    }
   };
+  console.log('fromlist', boards);
   return (
     <div className="coardinates-list">
       <ul>
-        {markers.map((e) => {
-          return (
-            <li key={e.marker.id}>
-              <p>lantitude : {e.marker.lan} </p>
-              <p>altitude : {e.marker.alt} </p>
-              <button onClick={() => handleDelete(e.marker.id)}>Delete</button>
-            </li>
-          );
-        })}
+        {data.map((item) => (
+          <li key={item.id}>
+            <input
+              type="checkbox"
+              checked={items.includes(item.id)}
+              onChange={() => handleCheckboxChange(item.id)}
+            />
+            {item.id}: {item.alt}, {item.lan}
+          </li>
+        ))}
       </ul>
     </div>
   );

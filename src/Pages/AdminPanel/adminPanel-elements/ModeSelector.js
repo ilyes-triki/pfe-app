@@ -3,12 +3,12 @@ import { getDatabase, ref, set, update } from 'firebase/database';
 import Popup from './Popup.js';
 import './ModeSelector.css';
 
-const ModeSelector = ({ initialMode, coardinates }) => {
+const ModeSelector = ({ initialMode, coardinates, rtdbBoards }) => {
   const [selectedMode, setSelectedMode] = useState(`${initialMode}`);
   const [descriptionsVisible, setDescriptionsVisible] = useState(true);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const db = getDatabase();
-
+  console.log('from mode selector', rtdbBoards);
   const handleModeChange = (event) => {
     setSelectedMode(event.target.value);
     setDescriptionsVisible(true);
@@ -21,6 +21,7 @@ const ModeSelector = ({ initialMode, coardinates }) => {
       await update(ref(db, 'options'), { mode: selectedMode, updated: true });
       console.log('Mode updated in the database:', selectedMode);
       alert('Mode updated successfully!');
+      window.location.reload();
     } catch (error) {
       console.error('Error updating mode:', error);
       alert('Error updating mode. Please try again.');
@@ -63,6 +64,7 @@ const ModeSelector = ({ initialMode, coardinates }) => {
               markers={coardinates}
               isOpen={isPopupOpen}
               onClose={togglePopup}
+              boards={rtdbBoards}
             />
           </div>
         )}
@@ -85,6 +87,7 @@ const ModeSelector = ({ initialMode, coardinates }) => {
             <Popup
               markers={coardinates}
               isOpen={isPopupOpen}
+              boards={rtdbBoards}
               onClose={togglePopup}
             />
           </div>
@@ -108,6 +111,7 @@ const ModeSelector = ({ initialMode, coardinates }) => {
             <Popup
               markers={coardinates}
               isOpen={isPopupOpen}
+              boards={rtdbBoards}
               onClose={togglePopup}
             />
           </div>

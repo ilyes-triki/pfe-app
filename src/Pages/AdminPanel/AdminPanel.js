@@ -10,10 +10,11 @@ import app from '../../config/firebase-config';
 import MapElement from './adminPanel-elements/MapElement.js';
 
 import './AdminPage.css';
+import { Await } from 'react-router-dom';
 
 const AdminPanel = () => {
   let [markers, setMarkers] = useState([]);
-  let [update, setUpdate] = useState();
+  let [boards, setboards] = useState([]);
   let [mode, setmode] = useState();
   let [lantitude, setLantitude] = useState();
   let [altitude, setAltitude] = useState();
@@ -26,7 +27,7 @@ const AdminPanel = () => {
       try {
         const markersRef = collection(fdb, 'markers');
         const snapshot = await getDocs(markersRef);
-        const markerData = snapshot.docs.map((doc) => ({
+        const markerData = await snapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
@@ -35,19 +36,20 @@ const AdminPanel = () => {
         console.error('Error fetching markers:', error);
       }
     };
-
     fetchMarkers();
     fetchData();
   }, []);
-  useEffect(() => {
-    console.log(markers);
-  }, [markers]);
+  // useEffect(() => {
+  //   console.log(markers);
+  //   console.log('boards from rtdb', boards);
+  // }, [markers, boards]);
   const fetchData = async () => {
     const dbRef = ref(db, 'options');
     const snapShot = await get(dbRef);
 
     if (snapShot.exists()) {
-      setUpdate(snapShot.val().updated);
+      setboards(snapShot.val().boards);
+
       setmode(snapShot.val().mode);
     }
   };
@@ -61,8 +63,12 @@ const AdminPanel = () => {
         <div className="ligth-control">
           <div className="ligth-control-element">
             {' '}
-            {mode !== undefined ? (
-              <ModeSelector initialMode={mode} coardinates={markers} />
+            {mode && boards !== undefined ? (
+              <ModeSelector
+                initialMode={mode}
+                coardinates={markers}
+                rtdbBoards={boards}
+              />
             ) : (
               'fetching data ...'
             )}{' '}
