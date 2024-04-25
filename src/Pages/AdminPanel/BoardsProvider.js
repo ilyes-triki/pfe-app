@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import { getDatabase, ref, get } from 'firebase/database';
 import { getDocs, collection } from 'firebase/firestore';
 import { db as firestoreDb } from '../../config/firebase-config.js';
@@ -42,6 +42,18 @@ export const BoardProvider = ({ children }) => {
   const [firestoreBoards, setFirestoreBoards] = useState([]);
   const [realtimeBoards, setRealtimeBoards] = useState([]);
   const [localBoards, setLocalBoards] = useState([]);
+  const [commonBoards, setCommonBoards] = useState([]);
+
+  const updateCommonBoards = (firestoreData, realtimeData) => {
+    const common = firestoreData
+      .filter((board) =>
+        realtimeData.some(
+          (realtimeBoard) => board.id[board.id.length - 1] === realtimeBoard
+        )
+      )
+      .map((board) => board.id);
+    setCommonBoards(common);
+  };
 
   const addBoardsToLocal = (boards) => {
     const uniqueBoards = boards.filter(
@@ -53,23 +65,34 @@ export const BoardProvider = ({ children }) => {
     );
     setLocalBoards((prevBoards) => [...prevBoards, ...lastChars]);
   };
-
   useState(() => {
-    const fetchFirestoreData = async () => {
-      const data = await fetchFirestoreBoardsSync();
-      setFirestoreBoards(data);
+    const fetchData = async () => {
+      const firestoreData = await fetchFirestoreBoardsSync();
+      setFirestoreBoards(firestoreData);
+      const realtimeData = await fetchRealtimeBoardsSync();
+      setRealtimeBoards(realtimeData);
+      updateCommonBoards(firestoreData, realtimeData);
     };
-    const fetchRealtimeData = async () => {
-      const data = await fetchRealtimeBoardsSync();
-      setRealtimeBoards(data);
-    };
-    fetchFirestoreData();
-    fetchRealtimeData();
+    fetchData();
   }, []);
+  // useEffect(() => { const fetchData = async () => {
+  //   const firestoreData = await fetchFirestoreBoardsSync();
+  //   setFirestoreBoards(firestoreData);
+  //   const realtimeData = await fetchRealtimeBoardsSync();
+  //   setRealtimeBoards(realtimeData);
+  //   updateCommonBoards(firestoreData, realtimeData);
+  // };
+  // fetchData();}, []);
 
   return (
     <BoardContext.Provider
-      value={{ firestoreBoards, realtimeBoards, localBoards, addBoardsToLocal }}
+      value={{
+        firestoreBoards,
+        realtimeBoards,
+        localBoards,
+        addBoardsToLocal,
+        commonBoards,
+      }}
     >
       {children}
     </BoardContext.Provider>

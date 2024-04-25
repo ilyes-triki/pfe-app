@@ -12,7 +12,6 @@ const CoardinatesList = ({ items, setItems }) => {
     } else {
       setItems(items.filter((item) => item !== id));
     }
-    console.log(items);
   };
 
   return (

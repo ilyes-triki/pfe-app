@@ -4,13 +4,24 @@ import { BoardContext } from '../../BoardsProvider.js';
 import './Popup.css';
 
 const Popup = ({ isOpen, onClose }) => {
+  const { addBoardsToLocal, commonBoards } = useContext(BoardContext);
   const [selectedItems, setSelectedItems] = useState([]);
-  const { addBoardsToLocal } = useContext(BoardContext);
+  const [hasChanges, setHasChanges] = useState(false);
 
   useEffect(() => {
-    if (!isOpen && selectedItems.length > 0) {
+    setSelectedItems(commonBoards);
+  }, [commonBoards]);
+  useEffect(() => {
+    setHasChanges(!arraysEqual(selectedItems, commonBoards));
+  }, [selectedItems, commonBoards]);
+
+  const arraysEqual = (arr1, arr2) => {
+    if (arr1.length !== arr2.length) return false;
+    for (let i = 0; i < arr1.length; i++) {
+      if (arr1[i] !== arr2[i]) return false;
     }
-  }, [isOpen, selectedItems]);
+    return true;
+  };
 
   const handleAdd = () => {
     addBoardsToLocal(selectedItems);
@@ -23,9 +34,7 @@ const Popup = ({ isOpen, onClose }) => {
         <h2>Popup Title</h2>
         <CoardinatesList items={selectedItems} setItems={setSelectedItems} />
 
-        {selectedItems.length > 0 && (
-          <button onClick={handleAdd}>Add Boards</button>
-        )}
+        {hasChanges && <button onClick={handleAdd}>Add Boards</button>}
         <button onClick={onClose}>Close</button>
       </div>
     </div>

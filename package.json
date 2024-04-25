@@ -9,9 +9,12 @@
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^15.0.2",
     "@testing-library/user-event": "^14.5.2",
+    "eslint": "^9.1.1",
     "firebase": "^10.11.0",
     "firebase-tools": "^13.7.3",
+    "husky": "^9.0.11",
     "leaflet": "^1.9.4",
+    "lint-staged": "^15.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-leaflet": "^4.2.1",
@@ -29,6 +32,17 @@
     "extends": [
       "react-app",
       "react-app/jest"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "./node_modules/.bin/eslint --fix",
+      "git add"
     ]
   },
   "browserslist": {
