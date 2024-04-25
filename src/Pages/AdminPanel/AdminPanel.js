@@ -4,17 +4,14 @@ import { db as fdb } from '../../config/firebase-config';
 import { getDatabase, ref, get } from 'firebase/database';
 import Navbar from '../../elements/navbar/Navbar.js';
 
-import ModeSelector from './adminPanel-elements/ModeSelector.js';
+import ModeSelector from './adminPanel-elements/modeSelector-elem/ModeSelector.js';
 
 import app from '../../config/firebase-config';
-import MapElement from './adminPanel-elements/MapElement.js';
+import MapElement from './adminPanel-elements/map-element/MapElement.js';
 
 import './AdminPage.css';
-import { Await } from 'react-router-dom';
 
 const AdminPanel = () => {
-  let [markers, setMarkers] = useState([]);
-  let [boards, setboards] = useState([]);
   let [mode, setmode] = useState();
   let [lantitude, setLantitude] = useState();
   let [altitude, setAltitude] = useState();
@@ -23,33 +20,14 @@ const AdminPanel = () => {
   const db = getDatabase(app);
 
   useEffect(() => {
-    const fetchMarkers = async () => {
-      try {
-        const markersRef = collection(fdb, 'markers');
-        const snapshot = await getDocs(markersRef);
-        const markerData = await snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setMarkers(markerData);
-      } catch (error) {
-        console.error('Error fetching markers:', error);
-      }
-    };
-    fetchMarkers();
     fetchData();
   }, []);
-  // useEffect(() => {
-  //   console.log(markers);
-  //   console.log('boards from rtdb', boards);
-  // }, [markers, boards]);
+
   const fetchData = async () => {
     const dbRef = ref(db, 'options');
     const snapShot = await get(dbRef);
 
     if (snapShot.exists()) {
-      setboards(snapShot.val().boards);
-
       setmode(snapShot.val().mode);
     }
   };
@@ -63,12 +41,8 @@ const AdminPanel = () => {
         <div className="ligth-control">
           <div className="ligth-control-element">
             {' '}
-            {mode && boards !== undefined ? (
-              <ModeSelector
-                initialMode={mode}
-                coardinates={markers}
-                rtdbBoards={boards}
-              />
+            {mode !== undefined ? (
+              <ModeSelector initialMode={mode} />
             ) : (
               'fetching data ...'
             )}{' '}

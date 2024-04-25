@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { getDatabase, ref, set, update } from 'firebase/database';
-import Popup from './Popup.js';
+import Popup from '../popup-elem/Popup.js';
+import { BoardContext } from '../../BoardsProvider.js';
+
 import './ModeSelector.css';
 
-const ModeSelector = ({ initialMode, coardinates, rtdbBoards }) => {
+const ModeSelector = ({ initialMode }) => {
+  const { localBoards } = useContext(BoardContext);
+
   const [selectedMode, setSelectedMode] = useState(`${initialMode}`);
   const [descriptionsVisible, setDescriptionsVisible] = useState(true);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const db = getDatabase();
-  console.log('from mode selector', rtdbBoards);
+
   const handleModeChange = (event) => {
     setSelectedMode(event.target.value);
     setDescriptionsVisible(true);
@@ -18,6 +22,12 @@ const ModeSelector = ({ initialMode, coardinates, rtdbBoards }) => {
   };
   const updateModeInDatabase = async () => {
     try {
+      const boardsRef = ref(db, 'options/boards');
+      set(boardsRef, {
+        ...localBoards,
+      }).catch((error) => {
+        console.error('Error adding items to Realtime Database:', error);
+      });
       await update(ref(db, 'options'), { mode: selectedMode, updated: true });
       console.log('Mode updated in the database:', selectedMode);
       alert('Mode updated successfully!');
@@ -60,12 +70,7 @@ const ModeSelector = ({ initialMode, coardinates, rtdbBoards }) => {
           <div className="description">
             <p>Description for Mode 2</p>
             <button onClick={togglePopup}>Select Boards</button>
-            <Popup
-              markers={coardinates}
-              isOpen={isPopupOpen}
-              onClose={togglePopup}
-              boards={rtdbBoards}
-            />
+            <Popup isOpen={isPopupOpen} onClose={togglePopup} />
           </div>
         )}
       </div>
@@ -84,12 +89,7 @@ const ModeSelector = ({ initialMode, coardinates, rtdbBoards }) => {
           <div className="description">
             <p>Description for Mode 2</p>
             <button onClick={togglePopup}>Select Boards</button>
-            <Popup
-              markers={coardinates}
-              isOpen={isPopupOpen}
-              boards={rtdbBoards}
-              onClose={togglePopup}
-            />
+            <Popup isOpen={isPopupOpen} onClose={togglePopup} />
           </div>
         )}
       </div>
@@ -108,12 +108,7 @@ const ModeSelector = ({ initialMode, coardinates, rtdbBoards }) => {
           <div className="description">
             <p>Description for Mode 2</p>
             <button onClick={togglePopup}>Select Boards</button>
-            <Popup
-              markers={coardinates}
-              isOpen={isPopupOpen}
-              boards={rtdbBoards}
-              onClose={togglePopup}
-            />
+            <Popup isOpen={isPopupOpen} onClose={togglePopup} />
           </div>
         )}
       </div>

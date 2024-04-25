@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
-import osm from './mapConfig';
+import osm from '../mapConfig';
 import 'leaflet/dist/leaflet.css';
 import './MapElement.css';
 

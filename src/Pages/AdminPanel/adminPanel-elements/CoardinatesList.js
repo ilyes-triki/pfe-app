@@ -1,19 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { BoardContext } from '../BoardsProvider.js';
 
-const CoardinatesList = ({ items, setItems, data, boards }) => {
+const CoardinatesList = ({ items, setItems }) => {
+  const { firestoreBoards } = useContext(BoardContext);
+
   const handleCheckboxChange = (id) => {
     const selectedIndex = items.indexOf(id);
+
     if (selectedIndex === -1) {
       setItems([...items, id]);
     } else {
       setItems(items.filter((item) => item !== id));
     }
+    console.log(items);
   };
-  console.log('fromlist', boards);
+
   return (
     <div className="coardinates-list">
       <ul>
-        {data.map((item) => (
+        {firestoreBoards.map((item) => (
           <li key={item.id}>
             <input
               type="checkbox"
