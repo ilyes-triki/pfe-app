@@ -9,18 +9,16 @@ import app from '../../config/firebase-config';
 import MapElement from './adminPanel-elements/map-element/MapElement.js';
 
 import './AdminPage.css';
+import AddCoardinates from './adminPanel-elements/addCoardinates-element/AddCoardinates.js';
 
 const AdminPanel = () => {
   let [mode, setmode] = useState();
-  let [lantitude, setLantitude] = useState();
-  let [altitude, setAltitude] = useState();
-  let [boardNum, setBoardNum] = useState();
 
   const db = getDatabase(app);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  });
 
   const fetchData = async () => {
     const dbRef = ref(db, 'options');
@@ -30,7 +28,6 @@ const AdminPanel = () => {
       setmode(snapShot.val().mode);
     }
   };
-  const addPoint = () => {};
 
   return (
     <div className="admin-container">
@@ -51,31 +48,7 @@ const AdminPanel = () => {
         {/* coardinates control panel */}
 
         <div className="coardinates-control">
-          <p className="coardinates-control-element">
-            board number :{' '}
-            <input
-              type="text"
-              value={boardNum}
-              onChange={(e) => setBoardNum(e.target.value)}
-            />{' '}
-          </p>
-          <p className="coardinates-control-element">
-            altitude :{' '}
-            <input
-              type="text"
-              value={altitude}
-              onChange={(e) => setAltitude(e.target.value)}
-            />{' '}
-          </p>
-          <p className="coardinates-control-element">
-            lantitude :{' '}
-            <input
-              type="text"
-              value={lantitude}
-              onChange={(e) => setLantitude(e.target.value)}
-            />{' '}
-          </p>
-          <button onClick={addPoint}>Add</button>
+          <AddCoardinates />
         </div>
       </div>
     </div>

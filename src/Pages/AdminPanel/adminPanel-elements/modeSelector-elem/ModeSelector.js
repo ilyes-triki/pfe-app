@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { getDatabase, ref, set, update } from 'firebase/database';
-import Popup from '../popup-elem/Popup.js';
+import Popup from './Popup.js';
 import { BoardContext } from '../../BoardsProvider.js';
 
 import './ModeSelector.css';

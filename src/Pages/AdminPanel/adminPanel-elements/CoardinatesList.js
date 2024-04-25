@@ -24,7 +24,7 @@ const CoardinatesList = ({ items, setItems }) => {
               checked={items.includes(item.id)}
               onChange={() => handleCheckboxChange(item.id)}
             />
-            {item.id}: {item.alt}, {item.lan}
+            {item.id}: {item.lantitude}, {item.altitude}
           </li>
         ))}
       </ul>

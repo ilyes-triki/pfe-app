@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useState } from 'react';
 import { getDatabase, ref, get } from 'firebase/database';
 import { getDocs, collection } from 'firebase/firestore';
 import { db as firestoreDb } from '../../config/firebase-config.js';
@@ -14,6 +14,7 @@ const fetchFirestoreBoardsSync = async () => {
       id: doc.id,
       ...doc.data(),
     }));
+
     return boardData;
   } catch (error) {
     console.error('Error fetching Firestore boards:', error);
@@ -75,14 +76,6 @@ export const BoardProvider = ({ children }) => {
     };
     fetchData();
   }, []);
-  // useEffect(() => { const fetchData = async () => {
-  //   const firestoreData = await fetchFirestoreBoardsSync();
-  //   setFirestoreBoards(firestoreData);
-  //   const realtimeData = await fetchRealtimeBoardsSync();
-  //   setRealtimeBoards(realtimeData);
-  //   updateCommonBoards(firestoreData, realtimeData);
-  // };
-  // fetchData();}, []);
 
   return (
     <BoardContext.Provider
