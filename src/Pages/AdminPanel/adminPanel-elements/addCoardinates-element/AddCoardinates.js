@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
   getDocs,
   where,
@@ -16,15 +16,32 @@ const AddCoardinates = () => {
   let [lantitude, setLantitude] = useState();
   let [altitude, setAltitude] = useState();
   let [boardNum, setBoardNum] = useState();
+
+  const checkMissingNumber = (board) => {
+    const existingNumbers = board
+      .map((item) => parseInt(item.id[item.id.length - 1]))
+      .sort((a, b) => a - b);
+    let missingNumber;
+    for (let i = 0; i <= existingNumbers.length - 1; i++) {
+      if (existingNumbers[i + 1] - existingNumbers[i] > 1) {
+        missingNumber = existingNumbers[i] + 1;
+        break;
+      }
+    }
+    if (missingNumber === undefined) {
+      missingNumber = board.length + 1;
+    }
+    return missingNumber;
+  };
+
   const addPoint = async () => {
     try {
-      // Append "-b" to the boardNum
-      const modifiedBoardNum = boardNum + '-b' + (firestoreBoards.length + 1);
+      let missingNumber = checkMissingNumber(firestoreBoards);
 
-      // Create a reference to the "markers" collection
+      const modifiedBoardNum = boardNum + '-b' + missingNumber;
+
       const markersRef = collection(db, 'markers');
 
-      // Query for documents with matching latitude and altitude
       const querySnapshot = await getDocs(
         query(
           markersRef,
@@ -33,29 +50,26 @@ const AddCoardinates = () => {
         )
       );
 
-      // If a matching document exists, alert the user
-      if (!querySnapshot.empty) {
-        alert(
-          'This board already exists. Please choose a different board number.'
-        );
+      if (!querySnapshot.empty || !lantitude || !altitude) {
+        alert('This board already exists. Please choose a valid coardinates.');
+        setAltitude('');
+
+        setLantitude('');
         return;
       }
 
-      // Otherwise, add data to Firestore
       await setDoc(doc(db, 'markers', modifiedBoardNum), {
         lantitude,
         altitude,
       });
 
       console.log('Data successfully added to Firestore');
+      alert('Mode updated successfully!');
+
+      window.location.reload();
     } catch (error) {
       console.error('Error adding data to Firestore:', error);
     }
-
-    setAltitude('');
-    setBoardNum('');
-    setLantitude('');
-    window.location.reload();
   };
 
   return (

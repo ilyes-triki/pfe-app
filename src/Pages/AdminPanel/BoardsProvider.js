@@ -3,6 +3,7 @@ import { getDatabase, ref, get } from 'firebase/database';
 import { getDocs, collection } from 'firebase/firestore';
 import { db as firestoreDb } from '../../config/firebase-config.js';
 import app from '../../config/firebase-config.js';
+import { setLogLevel } from 'firebase/app';
 
 export const BoardContext = createContext();
 
