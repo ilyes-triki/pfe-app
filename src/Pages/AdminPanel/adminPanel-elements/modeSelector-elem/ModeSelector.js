@@ -5,21 +5,45 @@ import { BoardContext } from '../../BoardsProvider.js';
 
 import './ModeSelector.css';
 
+/**
+ * Renders a component for selecting a mode and updating the mode in the database.
+ *
+ * @param {Object} props - The component props.
+ * @param {string} props.initialMode - The initial mode to be selected.
+ * @return {JSX.Element} The rendered component.
+ */
 const ModeSelector = ({ initialMode }) => {
-  const { localBoards } = useContext(BoardContext);
+  const { localBoards, setLocalBoards, setMode } = useContext(BoardContext);
 
   const [selectedMode, setSelectedMode] = useState(`${initialMode}`);
   const [descriptionsVisible, setDescriptionsVisible] = useState(true);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const db = getDatabase();
 
+  /**
+   * A function that handles the mode change event.
+   *
+   * @param {Event} event - The event object triggered by the mode change.
+   * @return {void} No return value.
+   */
   const handleModeChange = (event) => {
     setSelectedMode(event.target.value);
     setDescriptionsVisible(true);
   };
+  /**
+   * Toggles the visibility of the popup.
+   *
+   * @return {void} No return value.
+   */
   const togglePopup = () => {
     setIsPopupOpen(!isPopupOpen);
+    setMode('add');
   };
+  /**
+   * Updates the mode in the database.
+   *
+   * @return {Promise<void>} - A promise that resolves when the mode is updated successfully.
+   */
   const updateModeInDatabase = async () => {
     try {
       const boardsRef = ref(db, 'options/boards');
@@ -29,9 +53,9 @@ const ModeSelector = ({ initialMode }) => {
         console.error('Error adding items to Realtime Database:', error);
       });
       await update(ref(db, 'options'), { mode: selectedMode, updated: true });
+      setLocalBoards([]);
       console.log('Mode updated in the database:', selectedMode);
       alert('Mode updated successfully!');
-      window.location.reload();
     } catch (error) {
       console.error('Error updating mode:', error);
       alert('Error updating mode. Please try again.');

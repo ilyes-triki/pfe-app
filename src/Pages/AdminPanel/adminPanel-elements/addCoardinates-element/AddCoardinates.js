@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   getDocs,
   where,
@@ -9,34 +9,53 @@ import {
 } from 'firebase/firestore';
 import { db } from '../../../../config/firebase-config';
 import { BoardContext } from '../../BoardsProvider.js';
+import PopupDelete from '../popup-elem/DeletePopup.js';
 
+/**
+ * Renders a component for adding coordinates to Firestore.
+ *
+ * @return {JSX.Element} The rendered component.
+ */
 const AddCoardinates = () => {
-  const { firestoreBoards } = useContext(BoardContext);
+  const { firestoreBoards, setFirestoreBoards, setMode } =
+    useContext(BoardContext);
 
   let [lantitude, setLantitude] = useState();
   let [altitude, setAltitude] = useState();
   let [boardNum, setBoardNum] = useState();
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
+  /**
+   * Calculates the missing number in a sequence of existing numbers.
+   *
+   * @param {array} board - The board containing the existing numbers.
+   * @return {number} The missing number in the sequence.
+   */
   const checkMissingNumber = (board) => {
     const existingNumbers = board
-      .map((item) => parseInt(item.id[item.id.length - 1]))
+      .map((item) => parseInt(item.id.match(/-b(\d+)/)[1]))
       .sort((a, b) => a - b);
-    let missingNumber;
-    for (let i = 0; i <= existingNumbers.length - 1; i++) {
-      if (existingNumbers[i + 1] - existingNumbers[i] > 1) {
-        missingNumber = existingNumbers[i] + 1;
+    console.log(existingNumbers);
+    let missingNumber = existingNumbers[0];
+    for (let i = 1; i <= existingNumbers.length + 1; i++) {
+      if (!existingNumbers.includes(i)) {
+        missingNumber = i;
         break;
       }
     }
-    if (missingNumber === undefined) {
-      missingNumber = board.length + 1;
-    }
+
     return missingNumber;
   };
 
+  /**
+   * Adds a point to Firestore with the given coordinates.
+   *
+   * @return {Promise<void>} Resolves when the point is successfully added, or rejects with an error.
+   */
   const addPoint = async () => {
     try {
       let missingNumber = checkMissingNumber(firestoreBoards);
+      console.log(missingNumber);
 
       const modifiedBoardNum = boardNum + '-b' + missingNumber;
 
@@ -51,9 +70,8 @@ const AddCoardinates = () => {
       );
 
       if (!querySnapshot.empty || !lantitude || !altitude) {
-        alert('This board already exists. Please choose a valid coardinates.');
+        alert('Please check your inputs.');
         setAltitude('');
-
         setLantitude('');
         return;
       }
@@ -62,14 +80,28 @@ const AddCoardinates = () => {
         lantitude,
         altitude,
       });
+      await setFirestoreBoards([
+        ...firestoreBoards,
+        {
+          id: boardNum + '-b' + missingNumber,
+          lantitude: lantitude,
+          altitude: altitude,
+        },
+      ]);
 
+      setAltitude('');
+      setLantitude('');
+      setBoardNum('');
       console.log('Data successfully added to Firestore');
       alert('Mode updated successfully!');
-
-      window.location.reload();
     } catch (error) {
       console.error('Error adding data to Firestore:', error);
     }
+  };
+
+  const togglePopup = () => {
+    setIsPopupOpen(!isPopupOpen);
+    setMode('delete');
   };
 
   return (
@@ -99,6 +131,8 @@ const AddCoardinates = () => {
         />{' '}
       </p>
       <button onClick={addPoint}>Add</button>
+      <button onClick={togglePopup}>Select Boards</button>
+      <PopupDelete isOpen={isPopupOpen} onClose={togglePopup} />
     </div>
   );
 };
