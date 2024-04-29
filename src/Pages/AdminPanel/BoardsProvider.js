@@ -70,7 +70,6 @@ export const BoardProvider = ({ children }) => {
   const [realtimeBoards, setRealtimeBoards] = useState([]);
   const [localBoards, setLocalBoards] = useState([]);
   const [commonBoards, setCommonBoards] = useState([]);
-  const [mode, setMode] = useState('');
 
   /**
    * Updates the common boards based on the provided Firestore data and Realtime data.
@@ -128,8 +127,6 @@ export const BoardProvider = ({ children }) => {
         setFirestoreBoards,
         setLocalBoards,
         setCommonBoards,
-        setMode,
-        mode,
       }}
     >
       {children}

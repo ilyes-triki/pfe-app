@@ -2,6 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
 
+/**
+ * Renders a navigation bar component with links to the home page, login page, and admin panel.
+ *
+ * @return {JSX.Element} The navigation bar component.
+ */
 const Navbar = () => {
   return (
     <nav className="navbar">

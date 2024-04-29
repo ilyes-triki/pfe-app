@@ -17,8 +17,7 @@ import PopupDelete from '../popup-elem/DeletePopup.js';
  * @return {JSX.Element} The rendered component.
  */
 const AddCoardinates = () => {
-  const { firestoreBoards, setFirestoreBoards, setMode } =
-    useContext(BoardContext);
+  const { firestoreBoards, setFirestoreBoards } = useContext(BoardContext);
 
   let [lantitude, setLantitude] = useState();
   let [altitude, setAltitude] = useState();
@@ -101,7 +100,6 @@ const AddCoardinates = () => {
 
   const togglePopup = () => {
     setIsPopupOpen(!isPopupOpen);
-    setMode('delete');
   };
 
   return (

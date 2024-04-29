@@ -57,8 +57,6 @@ const Popup = ({ isOpen, onClose }) => {
   const handleAdd = () => {
     setCommonBoards(selectedItems);
     addBoardsToLocal(selectedItems);
-
-    onClose();
   };
 
   /**

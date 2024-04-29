@@ -5,19 +5,43 @@ import { db as firestoreDb } from '../../../../config/firebase-config.js';
 
 import './DeletePopup';
 
+/**
+ * Renders a popup for deleting items from the firestoreBoards array.
+ *
+ * @param {Object} props - The props object containing isOpen and onClose.
+ * @param {boolean} props.isOpen - A boolean indicating whether the popup is open.
+ * @param {function} props.onClose - A function to close the popup.
+ * @return {JSX.Element} The rendered DeletePopup component.
+ */
 const DeletePopup = ({ isOpen, onClose }) => {
   const { firestoreBoards, setFirestoreBoards } = useContext(BoardContext);
   const [selectedToDeleteItems, setSelectedToDeleteItems] = useState([]);
   console.log(selectedToDeleteItems);
 
+  /**
+   * Clears the selected items by setting the state of 'selectedToDeleteItems' to an empty array.
+   *
+   * @return {void}
+   */
   const unselect = () => {
     setSelectedToDeleteItems([]);
   };
+  /**
+   * Selects all items to delete if no items are currently selected.
+   *
+   * @return {void}
+   */
   const select = () => {
     if (selectedToDeleteItems.length === 0) {
       setSelectedToDeleteItems(firestoreBoards.map((item) => item.id));
     }
   };
+  /**
+   * Handles the checkbox change event for adding or removing an item from the selectedToDeleteItems array.
+   *
+   * @param {type} id - The id of the checkbox being changed
+   * @return {type} void
+   */
   const handleCheckboxChangeAdd = (id) => {
     const selectedIndex = selectedToDeleteItems.indexOf(id);
 
@@ -46,7 +70,6 @@ const DeletePopup = ({ isOpen, onClose }) => {
       console.error('Error deleting documents:', error);
     }
     setSelectedToDeleteItems([]);
-    onClose();
   };
 
   return (
@@ -61,16 +84,20 @@ const DeletePopup = ({ isOpen, onClose }) => {
         )}
         <div className="scrollable-container">
           <ul>
-            {firestoreBoards.map((item) => (
-              <li key={item.id}>
-                <input
-                  type="checkbox"
-                  checked={selectedToDeleteItems.includes(item.id)}
-                  onChange={() => handleCheckboxChangeAdd(item.id)}
-                />
-                {item.id}: {item.lantitude}, {item.altitude}
-              </li>
-            ))}
+            {firestoreBoards
+              .sort(
+                (a, b) => a.id.match(/-b(\d+)/)[1] - b.id.match(/-b(\d+)/)[1]
+              )
+              .map((item) => (
+                <li key={item.id}>
+                  <input
+                    type="checkbox"
+                    checked={selectedToDeleteItems.includes(item.id)}
+                    onChange={() => handleCheckboxChangeAdd(item.id)}
+                  />
+                  {item.id}: {item.lantitude}, {item.altitude}
+                </li>
+              ))}
           </ul>
         </div>
         <button onClick={onClose}>Close</button>

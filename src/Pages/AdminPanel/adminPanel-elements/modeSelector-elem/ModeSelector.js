@@ -13,7 +13,7 @@ import './ModeSelector.css';
  * @return {JSX.Element} The rendered component.
  */
 const ModeSelector = ({ initialMode }) => {
-  const { localBoards, setLocalBoards, setMode } = useContext(BoardContext);
+  const { localBoards, setLocalBoards } = useContext(BoardContext);
 
   const [selectedMode, setSelectedMode] = useState(`${initialMode}`);
   const [descriptionsVisible, setDescriptionsVisible] = useState(true);
@@ -37,7 +37,6 @@ const ModeSelector = ({ initialMode }) => {
    */
   const togglePopup = () => {
     setIsPopupOpen(!isPopupOpen);
-    setMode('add');
   };
   /**
    * Updates the mode in the database.

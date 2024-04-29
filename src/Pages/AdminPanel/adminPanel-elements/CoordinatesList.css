@@ -1,4 +1,4 @@
 .scrollable-container {
-  height: 200px; /* Adjust the height as per your requirement */
+  height: 200px;
   overflow-y: scroll;
 }

@@ -1,0 +1,10 @@
+.rendred-element {
+  display: flex;
+  flex-direction: column;
+}
+.footer-element {
+  align-items: flex-end;
+}
+.main-element {
+  height: 80vh;
+}
