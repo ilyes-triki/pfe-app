@@ -5,6 +5,8 @@ import { BoardContext } from '../../BoardsProvider.js';
 
 import './ModeSelector.css';
 
+//  !!!! set the common boards to [] when selected mode !mode in db
+
 /**
  * Renders a component for selecting a mode and updating the mode in the database.
  *
@@ -13,7 +15,8 @@ import './ModeSelector.css';
  * @return {JSX.Element} The rendered component.
  */
 const ModeSelector = ({ initialMode }) => {
-  const { localBoards, setLocalBoards } = useContext(BoardContext);
+  const { localBoards, setLocalBoards, setCommonBoards } =
+    useContext(BoardContext);
 
   const [selectedMode, setSelectedMode] = useState(`${initialMode}`);
   const [descriptionsVisible, setDescriptionsVisible] = useState(true);
@@ -51,8 +54,19 @@ const ModeSelector = ({ initialMode }) => {
       }).catch((error) => {
         console.error('Error adding items to Realtime Database:', error);
       });
-      await update(ref(db, 'options'), { mode: selectedMode, updated: true });
-      setLocalBoards([]);
+      await update(ref(db, 'options'), {
+        mode: parseInt(selectedMode),
+        updated: true,
+      });
+      console.log('local boards', localBoards);
+      if (
+        parseInt(selectedMode) === 1 ||
+        parseInt(selectedMode) === 5 ||
+        parseInt(selectedMode) === 6
+      ) {
+        setCommonBoards([]);
+        setLocalBoards([]);
+      }
       console.log('Mode updated in the database:', selectedMode);
       alert('Mode updated successfully!');
     } catch (error) {

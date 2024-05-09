@@ -8,13 +8,7 @@ import './CoordinatesList.css';
  * @param {number} id - The id of the checkbox
  * @return {void}
  */
-const CoardinatesList = ({
-  items,
-  setItems,
-  // mode,
-
-  // setdeleteItems,
-}) => {
+const CoardinatesList = ({ items, setItems }) => {
   const { firestoreBoards } = useContext(BoardContext);
 
   /**
