@@ -96,14 +96,8 @@ export const BoardProvider = ({ children }) => {
    * @return {void} This function does not return anything.
    */
   const addBoardsToLocal = (boards) => {
-    const uniqueBoards = boards.filter(
-      (board) =>
-        !localBoards.some(
-          (existingBoard) => existingBoard === board.match(/-b(\d+)/)[1]
-        )
-    );
-    const lastChars = uniqueBoards.map((board) => board.match(/-b(\d+)/)[1]);
-    setLocalBoards((prevBoards) => [...prevBoards, ...lastChars]);
+    const lastChars = boards.map((board) => board.match(/-b(\d+)/)[1]);
+    setLocalBoards(lastChars);
   };
   useState(() => {
     const fetchData = async () => {

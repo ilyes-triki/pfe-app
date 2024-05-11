@@ -12,13 +12,8 @@ import './Popup.css';
  * @return {JSX.Element} The rendered popup component.
  */
 const Popup = ({ isOpen, onClose }) => {
-  const {
-    mode,
-    addBoardsToLocal,
-    commonBoards,
-    setCommonBoards,
-    firestoreBoards,
-  } = useContext(BoardContext);
+  const { addBoardsToLocal, commonBoards, setCommonBoards, firestoreBoards } =
+    useContext(BoardContext);
   const [selectedItems, setSelectedItems] = useState([]);
   const [hasChanges, setHasChanges] = useState(false);
 
@@ -87,11 +82,7 @@ const Popup = ({ isOpen, onClose }) => {
         {selectedItems.length === 0 && (
           <button onClick={select}>Select all</button>
         )}
-        <CoardinatesList
-          mode={mode}
-          items={selectedItems}
-          setItems={setSelectedItems}
-        />
+        <CoardinatesList items={selectedItems} setItems={setSelectedItems} />
 
         {hasChanges && <button onClick={handleAdd}>Add Boards</button>}
         <button onClick={onClose}>Close</button>

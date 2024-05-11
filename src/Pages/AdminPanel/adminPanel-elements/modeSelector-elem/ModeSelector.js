@@ -46,11 +46,23 @@ const ModeSelector = ({ initialMode }) => {
    *
    * @return {Promise<void>} - A promise that resolves when the mode is updated successfully.
    */
+  console.log('local', localBoards);
   const updateModeInDatabase = async () => {
+    let updatedLocalBoards = localBoards;
+    if (
+      parseInt(selectedMode) === 1 ||
+      parseInt(selectedMode) === 5 ||
+      parseInt(selectedMode) === 6
+    ) {
+      setCommonBoards([]);
+      setLocalBoards([]);
+      updatedLocalBoards = [];
+    }
     try {
       const boardsRef = ref(db, 'options/boards');
-      set(boardsRef, {
-        ...localBoards,
+
+      await set(boardsRef, {
+        ...updatedLocalBoards,
       }).catch((error) => {
         console.error('Error adding items to Realtime Database:', error);
       });
@@ -58,16 +70,9 @@ const ModeSelector = ({ initialMode }) => {
         mode: parseInt(selectedMode),
         updated: true,
       });
-      console.log('local boards', localBoards);
-      if (
-        parseInt(selectedMode) === 1 ||
-        parseInt(selectedMode) === 5 ||
-        parseInt(selectedMode) === 6
-      ) {
-        setCommonBoards([]);
-        setLocalBoards([]);
-      }
+
       console.log('Mode updated in the database:', selectedMode);
+
       alert('Mode updated successfully!');
     } catch (error) {
       console.error('Error updating mode:', error);
