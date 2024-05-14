@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { doc, deleteDoc } from 'firebase/firestore';
 import { BoardContext } from '../../BoardsProvider.js';
 import { db as firestoreDb } from '../../../../config/firebase-config.js';
@@ -14,9 +14,15 @@ import './DeletePopup';
  * @return {JSX.Element} The rendered DeletePopup component.
  */
 const DeletePopup = ({ isOpen, onClose }) => {
-  const { firestoreBoards, setFirestoreBoards } = useContext(BoardContext);
+  const {
+    setCommonBoards,
+    firestoreBoards,
+    setFirestoreBoards,
+    setLocalBoards,
+    localBoards,
+    commonBoards,
+  } = useContext(BoardContext);
   const [selectedToDeleteItems, setSelectedToDeleteItems] = useState([]);
-  console.log(selectedToDeleteItems);
 
   /**
    * Clears the selected items by setting the state of 'selectedToDeleteItems' to an empty array.
@@ -54,6 +60,12 @@ const DeletePopup = ({ isOpen, onClose }) => {
     }
   };
 
+  /**
+   * A function that handles the deletion of documents from firestore based on the selectedToDeleteItems.
+   *
+   * @return {Promise<void>} A promise that resolves after successful deletion or rejects with an error.
+   */
+
   const handleDelete = async () => {
     try {
       for (const id of selectedToDeleteItems) {
@@ -65,7 +77,22 @@ const DeletePopup = ({ isOpen, onClose }) => {
       const updatedFirestoreBoards = firestoreBoards.filter(
         (item) => !selectedToDeleteItems.includes(item.id)
       );
+      const updatedLocalBoards = localBoards.filter(
+        (board) =>
+          !selectedToDeleteItems
+            .map((board) => board.match(/-b(\d+)/)[1])
+            .includes(board)
+      );
+      const updatedCommonBoards = commonBoards.filter(
+        (board) =>
+          !selectedToDeleteItems
+            .map((board) => board.match(/-b(\d+)/)[1])
+            .includes(board)
+      );
+
       await setFirestoreBoards(updatedFirestoreBoards);
+      await setLocalBoards(updatedLocalBoards);
+      await setCommonBoards(updatedCommonBoards);
     } catch (error) {
       console.error('Error deleting documents:', error);
     }
