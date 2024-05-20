@@ -1,12 +1,28 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import osm, { markers } from '../mapConfig';
+import osm from './mapConfig';
 import { icon } from 'leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
+import { BoardContext } from '../../BoardsProvider.js';
+
 import 'leaflet/dist/leaflet.css';
 import './MapElement.css';
 
+/**
+ * Renders a map element with markers based on firestoreBoards data.
+ *
+ * @return {JSX.Element} The map element JSX
+ */
 const MapElement = () => {
+  const { firestoreBoards } = useContext(BoardContext);
+  const [markers, setMarkers] = useState([]);
+  useEffect(() => {
+    const newMarkers = firestoreBoards.map((board) => ({
+      geocode: [parseFloat(board.altitude), parseFloat(board.latitude)],
+      popUp: `hello im position ${board.id}`,
+    }));
+    setMarkers(newMarkers);
+  }, [firestoreBoards]);
   const [center, setCenter] = useState({ lat: 36.796454, lng: 10.177566 });
   const ZOOM_LEVEL = 11;
   const customIcon = new icon({

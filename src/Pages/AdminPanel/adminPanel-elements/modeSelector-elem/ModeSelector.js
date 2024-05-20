@@ -1,6 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { getDatabase, ref, set, update } from 'firebase/database';
-import Popup from './Popup.js';
+import Popup from '../popup-elements/Popup.js';
 import { BoardContext } from '../../BoardsProvider.js';
 
 import './ModeSelector.css';
@@ -16,6 +16,9 @@ const ModeSelector = ({ initialMode }) => {
   const { localBoards, setLocalBoards, commonBoards } =
     useContext(BoardContext);
 
+  useEffect(() => {
+    setLocalBoards(commonBoards);
+  });
   const [selectedMode, setSelectedMode] = useState(`${initialMode}`);
   const [descriptionsVisible, setDescriptionsVisible] = useState(true);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -46,7 +49,9 @@ const ModeSelector = ({ initialMode }) => {
    */
 
   const updateModeInDatabase = async () => {
-    let updatedLocalBoards = localBoards;
+    let updatedLocalBoards = localBoards.map(
+      (board) => board.match(/-b(\d+)/)[1]
+    );
     if (
       parseInt(selectedMode) === 1 ||
       parseInt(selectedMode) === 5 ||

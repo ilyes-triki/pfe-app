@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-import CoardinatesList from '../CoardinatesList.js';
 import { BoardContext } from '../../BoardsProvider.js';
 import './Popup.css';
 
@@ -72,6 +71,21 @@ const Popup = ({ isOpen, onClose }) => {
       setSelectedItems(firestoreBoards.map((item) => item.id));
     }
   };
+  /**
+   * A function that handles the checkbox change event for adding or removing an item from the selectedItems array.
+   *
+   * @param {type} id - The id of the checkbox being changed
+   * @return {type} undefined
+   */
+  const handleCheckboxChangeAdd = (id) => {
+    const selectedIndex = selectedItems.indexOf(id);
+
+    if (selectedIndex === -1) {
+      setSelectedItems([...selectedItems, id]);
+    } else {
+      setSelectedItems(selectedItems.filter((item) => item !== id));
+    }
+  };
   return (
     <div className={`popup ${isOpen ? 'active' : ''}`}>
       <div className="popup-content">
@@ -82,7 +96,22 @@ const Popup = ({ isOpen, onClose }) => {
         {selectedItems.length === 0 && (
           <button onClick={select}>Select all</button>
         )}
-        <CoardinatesList items={selectedItems} setItems={setSelectedItems} />
+        <div className="coordinates-list">
+          <div className="scrollable-container">
+            <ul>
+              {firestoreBoards.map((item) => (
+                <li key={item.id}>
+                  <input
+                    type="checkbox"
+                    checked={selectedItems.includes(item.id)}
+                    onChange={() => handleCheckboxChangeAdd(item.id)}
+                  />
+                  {item.id}: {item.lantitude}, {item.altitude}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
 
         {hasChanges && <button onClick={handleAdd}>Add Boards</button>}
         <button onClick={onClose}>Close</button>

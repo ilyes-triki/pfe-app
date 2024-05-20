@@ -9,7 +9,7 @@ import {
 } from 'firebase/firestore';
 import { db } from '../../../../config/firebase-config';
 import { BoardContext } from '../../BoardsProvider.js';
-import PopupDelete from '../popup-elem/DeletePopup.js';
+import PopupDelete from '../popup-elements/DeletePopup.js';
 
 /**
  * Renders a component for adding coordinates to Firestore.
@@ -19,7 +19,7 @@ import PopupDelete from '../popup-elem/DeletePopup.js';
 const AddCoardinates = () => {
   const { firestoreBoards, setFirestoreBoards } = useContext(BoardContext);
 
-  let [lantitude, setLantitude] = useState();
+  let [latitude, setLatitude] = useState();
   let [altitude, setAltitude] = useState();
   let [boardNum, setBoardNum] = useState();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -63,33 +63,33 @@ const AddCoardinates = () => {
       const querySnapshot = await getDocs(
         query(
           markersRef,
-          where('lantitude', '==', lantitude),
+          where('latitude', '==', latitude),
           where('altitude', '==', altitude)
         )
       );
 
-      if (!querySnapshot.empty || !lantitude || !altitude) {
+      if (!querySnapshot.empty || !latitude || !altitude) {
         alert('Please check your inputs.');
         setAltitude('');
-        setLantitude('');
+        setLatitude('');
         return;
       }
 
       await setDoc(doc(db, 'markers', modifiedBoardNum), {
-        lantitude,
+        latitude,
         altitude,
       });
       await setFirestoreBoards([
         ...firestoreBoards,
         {
           id: boardNum + '-b' + missingNumber,
-          lantitude: lantitude,
+          latitude: latitude,
           altitude: altitude,
         },
       ]);
 
       setAltitude('');
-      setLantitude('');
+      setLatitude('');
       setBoardNum('');
       console.log('Data successfully added to Firestore');
       alert('Mode updated successfully!');
@@ -121,11 +121,11 @@ const AddCoardinates = () => {
         />{' '}
       </p>
       <p className="coardinates-control-element">
-        lantitude :{' '}
+        latitude :{' '}
         <input
           type="text"
-          value={lantitude}
-          onChange={(e) => setLantitude(e.target.value)}
+          value={latitude}
+          onChange={(e) => setLatitude(e.target.value)}
         />{' '}
       </p>
       <button onClick={addPoint}>Add</button>
