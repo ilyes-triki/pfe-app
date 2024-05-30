@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 
 /**
@@ -7,25 +7,27 @@ import './Navbar.css';
  *
  * @return {JSX.Element} The navigation bar component.
  */
-const Navbar = () => {
+export default function Navbar() {
   return (
-    <nav className="navbar">
-      <a href="#" className="navbar-brand">
-        Smart Lighting System
-      </a>
-      <ul className="navbar-links">
-        <li>
-          <Link to={'/'}>Home</Link>
-        </li>
-        <li>
-          <Link to={'/login'}>Login</Link>
-        </li>
-        <li>
-          <Link to={'/admin'}>Admin panel</Link>
-        </li>
-      </ul>
-    </nav>
-  );
-};
-
-export default Navbar;
+    <div className="navbar">
+      <div className="logo">
+        <span>Smart Light</span>
+      </div>
+      <div className="navs">
+        <div className="nav-item">
+          <span className="home">Home</span>
+        </div>
+        <div className="nav-item">
+          <span className="aboutUs">About Us</span>
+        </div>
+        <div className="nav-item">
+          <span className="Contact">Contact Us</span>
+        </div>
+        <div className="nav-item">
+          <span className="Admin">Admin Panel</span>
+        </div>
+      </div>
+      <button className="log">Login</button>
+    </div>
+  )
+}
