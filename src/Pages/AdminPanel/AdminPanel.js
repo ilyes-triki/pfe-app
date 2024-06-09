@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getDatabase, ref, get } from 'firebase/database';
+import { Spin } from 'antd';
 import ModeSelector from './adminPanel-elements/modeSelector-elem/ModeSelector.js';
 import app from '../../config/firebase-config';
 import MapElement from './adminPanel-elements/map-element/MapElement.js';
@@ -37,22 +38,22 @@ const AdminPanel = () => {
 
   return (
     <div className="admin-container">
+      <div className="map-container">
+        <MapElement />
+      </div>
+
       <div className="panels-container">
         {/* Ligth control panel */}
+
         <div className="ligth-control">
-          <div className="ligth-control-element">
-            {' '}
-            {mode !== undefined ? (
-              <ModeSelector initialMode={mode} />
-            ) : (
-              'fetching data ...'
-            )}{' '}
-          </div>
+          {' '}
+          {mode !== undefined ? <ModeSelector initialMode={mode} /> : <Spin />}
         </div>
-        <MapElement />
         {/* coardinates control panel */}
         <div className="coardinates-control">
+          <h2>Add & Delete Coardinates</h2>
           <AddCoardinates />
+          <h2></h2>
         </div>
       </div>
     </div>

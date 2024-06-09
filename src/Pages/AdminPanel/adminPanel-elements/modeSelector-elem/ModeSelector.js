@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { getDatabase, ref, set, update } from 'firebase/database';
 import Popup from '../popup-elements/Popup.js';
 import { BoardContext } from '../../BoardsProvider.js';
+import { Radio, Alert, message } from 'antd';
 
 import './ModeSelector.css';
 
@@ -22,6 +23,7 @@ const ModeSelector = ({ initialMode }) => {
   const [selectedMode, setSelectedMode] = useState(`${initialMode}`);
   const [descriptionsVisible, setDescriptionsVisible] = useState(true);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+
   const db = getDatabase();
 
   /**
@@ -73,119 +75,94 @@ const ModeSelector = ({ initialMode }) => {
         updated: true,
       });
 
-      console.log('Mode updated in the database:', selectedMode);
-
-      alert('Mode updated successfully!');
+      message.success('mode updated successfully');
     } catch (error) {
       console.error('Error updating mode:', error);
-      alert('Error updating mode. Please try again.');
+      message.error('An error occurred while updating the mode.');
     }
   };
   return (
-    <div>
+    <div className="outer-mode-selector">
       <h2>Select Mode:</h2>
-      {/*  1 monotone  */}
-      <div>
-        <input
-          type="radio"
-          id="mode1"
-          name="mode"
-          value="1"
-          checked={selectedMode === '1'}
-          onChange={handleModeChange}
-        />
-        <label htmlFor="mode1">Mode 1</label>
-        {selectedMode === '1' && descriptionsVisible && (
-          <p>Description for Mode 2</p>
-        )}
-      </div>
-      {/*   2 :monotone specific */}
-      <div>
-        <input
-          type="radio"
-          id="mode2"
-          name="mode"
-          value="2"
-          checked={selectedMode === '2'}
-          onChange={handleModeChange}
-        />
-        <label htmlFor="mode2">Mode 2</label>
-        {selectedMode === '2' && descriptionsVisible && (
-          <div className="description">
-            <p>Description for Mode 2</p>
-            <button onClick={togglePopup}>Select Boards</button>
-            <Popup isOpen={isPopupOpen} onClose={togglePopup} />
-          </div>
-        )}
-      </div>
-      {/*   3 :specific on  */}
-      <div>
-        <input
-          type="radio"
-          id="mode3"
-          name="mode"
-          value="3"
-          checked={selectedMode === '3'}
-          onChange={handleModeChange}
-        />
-        <label htmlFor="mode3">Mode 3</label>
-        {selectedMode === '3' && descriptionsVisible && (
-          <div className="description">
-            <p>Description for Mode 2</p>
-            <button onClick={togglePopup}>Select Boards</button>
-            <Popup isOpen={isPopupOpen} onClose={togglePopup} />
-          </div>
-        )}
-      </div>
-      {/* 4 : specific off  */}
-      <div>
-        <input
-          type="radio"
-          id="mode4"
-          name="mode"
-          value="4"
-          checked={selectedMode === '4'}
-          onChange={handleModeChange}
-        />
-        <label htmlFor="mode4">Mode 4</label>
-        {selectedMode === '4' && descriptionsVisible && (
-          <div className="description">
-            <p>Description for Mode 2</p>
-            <button onClick={togglePopup}>Select Boards</button>
-            <Popup isOpen={isPopupOpen} onClose={togglePopup} />
-          </div>
-        )}
-      </div>
-      {/* 5 : all on */}
-      <div>
-        <input
-          type="radio"
-          id="mode5"
-          name="mode"
-          value="5"
-          checked={selectedMode === '5'}
-          onChange={handleModeChange}
-        />
-        <label htmlFor="mode5">Mode 5</label>
-        {selectedMode === '5' && descriptionsVisible && (
-          <p>Description for Mode 2</p>
-        )}
-      </div>
-      {/*   6 : all off */}
-      <div>
-        <input
-          type="radio"
-          id="mode6"
-          name="mode"
-          value="6"
-          checked={selectedMode === '6'}
-          onChange={handleModeChange}
-        />
-        <label htmlFor="mode6">Mode 6</label>
-        {selectedMode === '6' && descriptionsVisible && (
-          <p>Description for Mode 2</p>
-        )}
-      </div>
+
+      <Radio.Group
+        className="inner-mode-selector"
+        onChange={handleModeChange}
+        value={selectedMode}
+      >
+        {/* 1 monotone */}
+        <Radio checked={selectedMode === '1'} value={'1'}>
+          <h3>Mode Monotone : </h3>
+          {selectedMode === '1' && descriptionsVisible && (
+            <div className="description">
+              <p>
+                Cette mode permettre aux poto de fonction sans aucune
+                intervention
+              </p>
+            </div>
+          )}
+        </Radio>
+        {/*   2 :monotone specific */}
+
+        <Radio checked={selectedMode === '2'} value={'2'}>
+          <h3>Mode Monotone-Spécific : </h3>
+
+          {selectedMode === '2' && descriptionsVisible && (
+            <div className="description">
+              <p>
+                Cette mode permettre aux poto choisis de fonctioné sans aucune
+                intervention
+              </p>
+              <button onClick={togglePopup}>Select Boards</button>
+              <Popup isOpen={isPopupOpen} onClose={togglePopup} />
+            </div>
+          )}
+        </Radio>
+        {/*   3 :specific on  */}
+
+        <Radio checked={selectedMode === '3'} value={'3'}>
+          <h3>Mode Specific-On : </h3>
+          {selectedMode === '3' && descriptionsVisible && (
+            <div className="description">
+              <p>Cette mode allume touts les poto choisis</p>
+              <button onClick={togglePopup}>Select Boards</button>
+              <Popup isOpen={isPopupOpen} onClose={togglePopup} />
+            </div>
+          )}
+        </Radio>
+        {/* 4 : specific off  */}
+
+        <Radio checked={selectedMode === '4'} value={'4'}>
+          <h3> Mode Specific-Off : </h3>
+          {selectedMode === '4' && descriptionsVisible && (
+            <div className="description">
+              <p>Cette mode éteint touts les poto choisis</p>
+              <button onClick={togglePopup}>Select Boards</button>
+              <Popup isOpen={isPopupOpen} onClose={togglePopup} />
+            </div>
+          )}
+        </Radio>
+        {/* 5 : all on */}
+
+        <Radio checked={selectedMode === '5'} value={'5'}>
+          <h3>Mode On : </h3>
+          {selectedMode === '5' && descriptionsVisible && (
+            <div className="description">
+              <p>Cette mode allume touts les potos</p>
+            </div>
+          )}
+        </Radio>
+        {/*   6 : all off */}
+        <Radio checked={selectedMode === '6'} value={'6'}>
+          <h3>Mode Off : </h3>
+          {selectedMode === '6' && descriptionsVisible && (
+            <div className="description">
+              <p>Cette mode éteint touts les potos</p>
+            </div>
+          )}
+        </Radio>
+      </Radio.Group>
+
       <button onClick={updateModeInDatabase}>Update Mode</button>
     </div>
   );

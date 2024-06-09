@@ -15,19 +15,29 @@ export default function Navbar() {
       </div>
       <div className="navs">
         <div className="nav-item">
-          <span className="home">Home</span>
+          <Link className="link" to={'/'}>
+            <span className="home">Home</span>
+          </Link>
         </div>
         <div className="nav-item">
-          <span className="aboutUs">About Us</span>
+          <Link className="link">
+            {' '}
+            <span className="aboutUs">About Us</span>{' '}
+          </Link>
         </div>
         <div className="nav-item">
-          <span className="Contact">Contact Us</span>
+          <Link className="link">
+            {' '}
+            <span className="Contact">Contact Us</span>
+          </Link>
         </div>
         <div className="nav-item">
-          <span className="Admin">Admin Panel</span>
+          <Link className="link" to={'/Admin'}>
+            <span className="Admin">Admin Panel</span>
+          </Link>
         </div>
       </div>
       <button className="log">Login</button>
     </div>
-  )
+  );
 }

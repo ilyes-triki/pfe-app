@@ -1,0 +1,23 @@
+.coardinates-control-element {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.coardinates-control-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.coardinates-control-element Input {
+  margin-top: 5px;
+}
+.outer-coardinates-control-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.coardinates-control-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+}

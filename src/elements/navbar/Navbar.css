@@ -1,7 +1,7 @@
-
 .navbar {
-  border-radius: 68px;
-  background-color: #ffffff;
+  /* position: fixed; */
+  border-radius: 0 0 10px 10px;
+  background-color: #eeeaea;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -62,26 +62,22 @@ button:hover {
 
 .navbar .nav-item {
   border-radius: 16px;
-  background-color: #FFFFFF;
-  margin: 0 24px 0 0;
+
+  margin: 0 20px 0 0;
   display: flex;
   padding: 4px 12px;
   box-sizing: border-box;
+  font-size: larger;
 }
 
 .navbar .nav-item span {
   word-break: break-word;
   font-family: 'Poppins', sans-serif;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 16px;
   text-transform: capitalize;
   transition: color 0.3s;
-}
-
-.navbar .nav-item span.aboutUs,
-.navbar .nav-item span.Contact,
-.navbar .nav-item span.Admin {
-  color: #000000;
+  cursor: pointer;
 }
 
 .navbar .nav-item:hover span {
@@ -90,8 +86,8 @@ button:hover {
 
 .navbar .button {
   border-radius: 16px;
-  border: 1px solid #0F38A1;
-  background-color: #FFFFFF;
+  border: 1px solid #0f38a1;
+  background-color: #ffffff;
   margin: 0 24px 0 0;
   display: flex;
   padding: 3px 15.4px;
@@ -104,7 +100,7 @@ button:hover {
   font-weight: 600;
   font-size: 14px;
   text-transform: capitalize;
-  color: #0F38A1;
+  color: #0f38a1;
   transition: color 0.3s;
 }
 
@@ -118,7 +114,7 @@ button:hover {
 
 .navbar .button-1 {
   border-radius: 16px;
-  background-color: #ED930C;
+  background-color: #ed930c;
   display: flex;
   padding: 4px 16.6px;
   box-sizing: border-box;
@@ -130,12 +126,20 @@ button:hover {
   font-weight: 600;
   font-size: 14px;
   text-transform: capitalize;
-  color: #FFFFFF;
+  color: #ffffff;
   transition: color 0.3s;
 }
 
 .navbar .button-1:hover span {
   color: #ffffff;
+}
+.link {
+  color: #000000;
+  text-decoration: none;
+}
+
+.link :visited {
+  color: #000000;
 }
 
 /* Media Queries */

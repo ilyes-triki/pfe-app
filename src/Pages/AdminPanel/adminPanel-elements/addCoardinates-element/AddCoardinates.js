@@ -10,6 +10,8 @@ import {
 import { db } from '../../../../config/firebase-config';
 import { BoardContext } from '../../BoardsProvider.js';
 import PopupDelete from '../popup-elements/DeletePopup.js';
+import { Input } from 'antd';
+import './AddCoardinates.css';
 
 /**
  * Renders a component for adding coordinates to Firestore.
@@ -103,34 +105,39 @@ const AddCoardinates = () => {
   };
 
   return (
-    <div>
-      <p className="coardinates-control-element">
-        board name :{' '}
-        <input
-          type="text"
-          value={boardNum}
-          onChange={(e) => setBoardNum(e.target.value)}
-        />{' '}
-      </p>
-      <p className="coardinates-control-element">
-        altitude :{' '}
-        <input
-          type="text"
-          value={altitude}
-          onChange={(e) => setAltitude(e.target.value)}
-        />{' '}
-      </p>
-      <p className="coardinates-control-element">
-        latitude :{' '}
-        <input
-          type="text"
-          value={latitude}
-          onChange={(e) => setLatitude(e.target.value)}
-        />{' '}
-      </p>
-      <button onClick={addPoint}>Add</button>
-      <button onClick={togglePopup}>Select Boards</button>
-      <PopupDelete isOpen={isPopupOpen} onClose={togglePopup} />
+    <div className="outer-coardinates-control-panel">
+      <div className="coardinates-control-panel">
+        <p className="coardinates-control-element">
+          <h4> Board name :</h4>
+
+          <Input
+            placeholder="board name"
+            value={boardNum}
+            onChange={(e) => setBoardNum(e.target.value)}
+          />
+        </p>
+        <p className="coardinates-control-element">
+          <h4> Altitude :</h4>
+          <Input
+            placeholder="altitude"
+            value={altitude}
+            onChange={(e) => setAltitude(e.target.value)}
+          />
+        </p>
+        <p className="coardinates-control-element">
+          <h4>Latitude :</h4>
+          <Input
+            placeholder="latitude"
+            value={latitude}
+            onChange={(e) => setLatitude(e.target.value)}
+          />
+        </p>
+      </div>
+      <div className="coardinates-control-buttons">
+        <button onClick={addPoint}>Add</button>
+        <button onClick={togglePopup}>Select Boards</button>
+        <PopupDelete isOpen={isPopupOpen} onClose={togglePopup} />
+      </div>
     </div>
   );
 };
