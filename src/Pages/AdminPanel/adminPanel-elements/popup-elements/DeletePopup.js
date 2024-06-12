@@ -2,8 +2,9 @@ import React, { useState, useContext } from 'react';
 import { doc, deleteDoc } from 'firebase/firestore';
 import { BoardContext } from '../../BoardsProvider.js';
 import { db as firestoreDb } from '../../../../config/firebase-config.js';
+import { Radio, message } from 'antd';
 
-import './DeletePopup';
+import './DeletePopup.css';
 
 /**
  * Renders a popup for deleting items from the firestoreBoards array.
@@ -71,6 +72,7 @@ const DeletePopup = ({ isOpen, onClose }) => {
       for (const id of selectedToDeleteItems) {
         const collectionRef = doc(firestoreDb, 'markers', id);
         await deleteDoc(collectionRef);
+        message.success('Coardinates deleted successfully !');
 
         console.log(`Document with ID ${id} successfully deleted!`);
       }
@@ -101,8 +103,8 @@ const DeletePopup = ({ isOpen, onClose }) => {
 
   return (
     <div className={`popup ${isOpen ? 'active' : ''}`}>
-      <div className="popup-content">
-        <h2>Popup Title</h2>
+      <div className="popup-content-delete">
+        <h2>Delete Coardinates</h2>
         {selectedToDeleteItems.length > 0 && (
           <button onClick={unselect}>Unselect all</button>
         )}
@@ -122,15 +124,19 @@ const DeletePopup = ({ isOpen, onClose }) => {
                     checked={selectedToDeleteItems.includes(item.id)}
                     onChange={() => handleCheckboxChangeAdd(item.id)}
                   />
-                  {item.id}: {item.lantitude}, {item.altitude}
+                  {item.id} :
+                  <p>
+                    {' '}
+                    latitude : {item.latitude}, altitude : {item.altitude}
+                  </p>
                 </li>
               ))}
           </ul>
         </div>
-        <button onClick={onClose}>Close</button>
         {selectedToDeleteItems.length > 0 && (
           <button onClick={handleDelete}>Delete Boards</button>
         )}
+        <button onClick={onClose}>Close</button>
       </div>
     </div>
   );

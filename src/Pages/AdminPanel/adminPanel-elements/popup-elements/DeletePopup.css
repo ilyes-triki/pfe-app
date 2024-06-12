@@ -13,14 +13,26 @@
   display: block;
 }
 
-.popup-content {
+.popup-content-delete {
   position: absolute;
-  top: 55%;
-  left: 50%;
-  height: 50%;
-  width: 20%;
-  transform: translate(-50%, -50%);
+  height: 90%;
+  width: 100%;
+  transform: translate(-5%, 2%);
   background-color: white;
   padding: 20px;
   border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+.popup-content-delete li {
+  list-style: none;
+  padding: 5px;
+  width: 100%;
+}
+.scrollable-container {
+  max-height: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }

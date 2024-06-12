@@ -1,10 +1,26 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import { getDatabase, ref, get } from 'firebase/database';
-import { getDocs, collection } from 'firebase/firestore';
+import { getDocs, collection, onSnapshot } from 'firebase/firestore';
 import { db as firestoreDb } from '../../config/firebase-config.js';
+
 import app from '../../config/firebase-config.js';
 
 export const BoardContext = createContext();
+
+const fetchFirestoreErrors = async () => {
+  try {
+    const errorsRef = collection(firestoreDb, 'errorMessages');
+    const snapshot = await getDocs(errorsRef);
+    const errorData = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    return errorData;
+  } catch (error) {
+    console.error('Error fetching Firestore errors:', error);
+    return [];
+  }
+};
 
 /**
  * Fetches Firestore boards synchronously.
@@ -70,6 +86,7 @@ export const BoardProvider = ({ children }) => {
   const [realtimeBoards, setRealtimeBoards] = useState([]);
   const [localBoards, setLocalBoards] = useState([]);
   const [commonBoards, setCommonBoards] = useState([]);
+  const [errorMessages, setErrorMessages] = useState([]);
 
   /**
    * Updates the common boards based on the provided Firestore data and Realtime data.
@@ -89,6 +106,38 @@ export const BoardProvider = ({ children }) => {
     setCommonBoards(common);
   };
 
+  useEffect(() => {
+    const setupRealTimeListener = () => {
+      const errorsRef = collection(firestoreDb, 'errorMessages');
+      return onSnapshot(errorsRef, (snapshot) => {
+        const errorData = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        if (errorData) {
+          return;
+        } else {
+          setErrorMessages(errorData);
+        }
+      });
+    };
+
+    const unsubscribe = setupRealTimeListener();
+
+    const intervalId = setInterval(async () => {
+      const errorData = await fetchFirestoreErrors();
+      setErrorMessages(errorData);
+    }, 5000);
+
+    return () => {
+      clearInterval(intervalId);
+      unsubscribe();
+    };
+  }, []);
+
+  useEffect(() => {
+    console.log(errorMessages);
+  }, [errorMessages]);
   /**
    * Adds new boards to the local boards list if they are unique.
    *

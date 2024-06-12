@@ -1,5 +1,9 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../Pages/LoginPage/AuthProvider';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../config/firebase-config';
+
 import './Navbar.css';
 
 /**
@@ -8,6 +12,14 @@ import './Navbar.css';
  * @return {JSX.Element} The navigation bar component.
  */
 export default function Navbar() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const disconnect = async () => {
+    await signOut(auth);
+    navigate('/');
+  };
+
   return (
     <div className="navbar">
       <div className="logo">
@@ -31,13 +43,17 @@ export default function Navbar() {
             <span className="Contact">Contact Us</span>
           </Link>
         </div>
-        <div className="nav-item">
-          <Link className="link" to={'/Admin'}>
-            <span className="Admin">Admin Panel</span>
-          </Link>
-        </div>
       </div>
-      <button className="log">Login</button>
+      {user ? (
+        <div className="nav-item">
+          {' '}
+          <span>alerts</span> <button onClick={disconnect}>disconnect</button>{' '}
+        </div>
+      ) : (
+        <Link to={'/Login'}>
+          <button className="log">Login</button>
+        </Link>
+      )}
     </div>
   );
 }

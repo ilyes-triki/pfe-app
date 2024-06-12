@@ -88,8 +88,8 @@ const Popup = ({ isOpen, onClose }) => {
   };
   return (
     <div className={`popup ${isOpen ? 'active' : ''}`}>
-      <div className="popup-content">
-        <h2>Popup Title</h2>
+      <div className="popup-content-mode">
+        <h2>Select Boards</h2>
         {selectedItems.length > 0 && (
           <button onClick={unselect}>Unselect all</button>
         )}
@@ -106,7 +106,11 @@ const Popup = ({ isOpen, onClose }) => {
                     checked={selectedItems.includes(item.id)}
                     onChange={() => handleCheckboxChangeAdd(item.id)}
                   />
-                  {item.id}: {item.lantitude}, {item.altitude}
+                  {item.id} :
+                  <p>
+                    {' '}
+                    latitude : {item.latitude}, altitude : {item.altitude}
+                  </p>
                 </li>
               ))}
             </ul>

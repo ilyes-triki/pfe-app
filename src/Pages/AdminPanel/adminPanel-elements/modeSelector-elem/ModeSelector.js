@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { getDatabase, ref, set, update } from 'firebase/database';
 import Popup from '../popup-elements/Popup.js';
 import { BoardContext } from '../../BoardsProvider.js';
-import { Radio, Alert, message } from 'antd';
+import { Radio, message } from 'antd';
 
 import './ModeSelector.css';
 

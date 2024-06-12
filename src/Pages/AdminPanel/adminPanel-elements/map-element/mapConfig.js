@@ -1,6 +1,6 @@
 export default {
   maptiler: {
-    url: 'https://api.maptiler.com/maps/openstreetmap/256/{z}/{x}/{y}.jpg?key=YPCh7N0i9v5QQ65m4oz9',
+    url: 'https://api.maptiler.com/maps/basic-v2/{z}/{x}/{y}.png?key=s2yd7mFrSzE4288lukuB',
     attribution: '',
   },
   iconUrl: 'https://img.icons8.com/?size=64&id=16nqcGhvw7Bt&format=png',

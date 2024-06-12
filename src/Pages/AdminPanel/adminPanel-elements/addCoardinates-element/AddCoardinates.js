@@ -10,7 +10,8 @@ import {
 import { db } from '../../../../config/firebase-config';
 import { BoardContext } from '../../BoardsProvider.js';
 import PopupDelete from '../popup-elements/DeletePopup.js';
-import { Input } from 'antd';
+import { Input, message } from 'antd';
+
 import './AddCoardinates.css';
 
 /**
@@ -93,8 +94,8 @@ const AddCoardinates = () => {
       setAltitude('');
       setLatitude('');
       setBoardNum('');
-      console.log('Data successfully added to Firestore');
-      alert('Mode updated successfully!');
+
+      message.success('Coardinates added successfully');
     } catch (error) {
       console.error('Error adding data to Firestore:', error);
     }

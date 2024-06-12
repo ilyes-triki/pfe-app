@@ -11,11 +11,11 @@
 .coardinates-control-element Input {
   margin-top: 5px;
 }
-.outer-coardinates-control-panel {
+/* .outer-coardinates-control-panel {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-}
+} */
 .coardinates-control-buttons {
   margin-top: 20px;
   display: flex;

@@ -4,13 +4,16 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BoardProvider } from './Pages/AdminPanel/BoardsProvider';
+import { AuthProvider } from './Pages/LoginPage/AuthProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <BoardProvider>
-      <App />
-    </BoardProvider>
+    <AuthProvider>
+      <BoardProvider>
+        <App />
+      </BoardProvider>
+    </AuthProvider>
   </React.StrictMode>
 );
 

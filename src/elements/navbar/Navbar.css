@@ -1,13 +1,14 @@
 .navbar {
-  /* position: fixed; */
-  border-radius: 0 0 10px 10px;
-  background-color: #eeeaea;
+  /* border-radius: 0 0 10px 10px; */
+  background-color: #ffffff;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding: 12px 80px;
   width: 100%;
   box-sizing: border-box;
+  box-shadow: 0 0 20px rgba(34, 27, 84, 0.2);
+  border-bottom: 1px solid #bebebe;
 }
 
 button {
