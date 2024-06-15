@@ -28,7 +28,7 @@ button {
   background-color: rgba(15, 56, 161, 1);
 }
 
-.log {
+.outlined-button {
   color: rgba(15, 56, 161, 1);
   background-color: rgba(255, 255, 255, 1);
   border: 1px solid rgba(15, 56, 161, 1);
@@ -84,7 +84,10 @@ button:hover {
 .navbar .nav-item:hover span {
   color: #007bff;
 }
-
+.disconnect-section {
+  display: flex;
+  align-items: center;
+}
 .navbar .button {
   border-radius: 16px;
   border: 1px solid #0f38a1;

@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../config/firebase-config';
 import { useNavigate } from 'react-router-dom';
+import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+import { message, Input } from 'antd';
 import './LoginPage.css';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
+
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -15,37 +17,48 @@ const LoginPage = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       navigate('/Admin');
-      console.log('Login successful');
+      message.success('Login successful !');
     } catch (error) {
-      setError(error.message);
+      console.log(error);
+      message.error('wrong password or email !');
     }
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
+    <div className="login">
+      <div className="login-form">
+        <h2 className="logo">Login</h2>
+        <span className="form-element-lable">Email</span>
+        <div className="form-element">
+          <Input
+            className="form-element-input"
+            placeholder="input Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
+        <span className="form-element-lable">Password</span>
+        <div className="form-element">
+          <Input.Password
+            className="form-element-input"
+            placeholder="input password"
+            iconRender={(visible) =>
+              visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+            }
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button type="submit">Login</button>
-      </form>
+
+        <button
+          className="form-element-button outlined-button"
+          onClick={handleLogin}
+        >
+          Login
+        </button>
+      </div>
     </div>
   );
 };

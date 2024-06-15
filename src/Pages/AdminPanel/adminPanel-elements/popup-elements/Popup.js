@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { BoardContext } from '../../BoardsProvider.js';
+import { message, Button, Checkbox } from 'antd';
+
 import './Popup.css';
 
 /**
@@ -89,36 +91,50 @@ const Popup = ({ isOpen, onClose }) => {
   return (
     <div className={`popup ${isOpen ? 'active' : ''}`}>
       <div className="popup-content-mode">
-        <h2>Select Boards</h2>
+        <div className="title">
+          <h2>Select Boards</h2>
+        </div>
+
         {selectedItems.length > 0 && (
-          <button onClick={unselect}>Unselect all</button>
+          <button className="outlined-button" onClick={unselect}>
+            Unselect all
+          </button>
         )}
         {selectedItems.length === 0 && (
-          <button onClick={select}>Select all</button>
+          <button className="outlined-button" onClick={select}>
+            Select all
+          </button>
         )}
         <div className="coordinates-list">
           <div className="scrollable-container">
             <ul>
-              {firestoreBoards.map((item) => (
-                <li key={item.id}>
-                  <input
+              {firestoreBoards.map((item, key) => (
+                <li key={key}>
+                  <Checkbox
                     type="checkbox"
                     checked={selectedItems.includes(item.id)}
                     onChange={() => handleCheckboxChangeAdd(item.id)}
-                  />
-                  {item.id} :
-                  <p>
-                    {' '}
-                    latitude : {item.latitude}, altitude : {item.altitude}
-                  </p>
+                  >
+                    {item.id} :
+                    <p>
+                      {' '}
+                      latitude : {item.latitude}, altitude : {item.altitude}
+                    </p>
+                  </Checkbox>
                 </li>
               ))}
             </ul>
           </div>
         </div>
 
-        {hasChanges && <button onClick={handleAdd}>Add Boards</button>}
-        <button onClick={onClose}>Close</button>
+        {hasChanges && (
+          <button className="outlined-button" onClick={handleAdd}>
+            Add Boards
+          </button>
+        )}
+        <button className="outlined-button" onClick={onClose}>
+          Close
+        </button>
       </div>
     </div>
   );

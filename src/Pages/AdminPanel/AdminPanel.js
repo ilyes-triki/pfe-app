@@ -45,15 +45,13 @@ const AdminPanel = () => {
       <div className="panels-container">
         {/* Ligth control panel */}
 
-        <div className="ligth-control">
+        <div className="control-elem">
           {' '}
           {mode !== undefined ? <ModeSelector initialMode={mode} /> : <Spin />}
         </div>
         {/* coardinates control panel */}
-        <div className="coardinates-control">
-          <h2>Add & Delete Coardinates</h2>
+        <div className="control-elem">
           <AddCoardinates />
-          <h2></h2>
         </div>
       </div>
     </div>

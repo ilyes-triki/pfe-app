@@ -107,6 +107,9 @@ const AddCoardinates = () => {
 
   return (
     <div className="outer-coardinates-control-panel">
+      <div className="title">
+        <h2>Add & Delete Coardinates</h2>
+      </div>
       <div className="coardinates-control-panel">
         <p className="coardinates-control-element">
           <h4> Board name :</h4>
@@ -135,8 +138,12 @@ const AddCoardinates = () => {
         </p>
       </div>
       <div className="coardinates-control-buttons">
-        <button onClick={addPoint}>Add</button>
-        <button onClick={togglePopup}>Select Boards</button>
+        <button className="outlined-button" onClick={addPoint}>
+          Add
+        </button>
+        <button className="outlined-button" onClick={togglePopup}>
+          Select Boards
+        </button>
         <PopupDelete isOpen={isPopupOpen} onClose={togglePopup} />
       </div>
     </div>

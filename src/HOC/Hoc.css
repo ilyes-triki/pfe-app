@@ -1,7 +1,7 @@
 .rendred-element {
   display: flex;
   flex-direction: column;
-}
-.footer-element {
-  align-items: flex-end;
+  justify-content: space-between;
+  min-height: 100vh;
+  background: aliceblue;
 }

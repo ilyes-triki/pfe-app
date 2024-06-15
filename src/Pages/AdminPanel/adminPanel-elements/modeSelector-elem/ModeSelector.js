@@ -83,7 +83,9 @@ const ModeSelector = ({ initialMode }) => {
   };
   return (
     <div className="outer-mode-selector">
-      <h2>Select Mode:</h2>
+      <div className="title">
+        <h2>Select Mode</h2>
+      </div>
 
       <Radio.Group
         className="inner-mode-selector"
@@ -96,7 +98,7 @@ const ModeSelector = ({ initialMode }) => {
           {selectedMode === '1' && descriptionsVisible && (
             <div className="description">
               <p>
-                Cette mode permettre aux poto de fonction sans aucune
+                Cette mode permettre aux poteaux de fonction sans aucune
                 intervention
               </p>
             </div>
@@ -110,10 +112,12 @@ const ModeSelector = ({ initialMode }) => {
           {selectedMode === '2' && descriptionsVisible && (
             <div className="description">
               <p>
-                Cette mode permettre aux poto choisis de fonctioné sans aucune
-                intervention
+                Cette mode permettre aux poteaux choisis de fonctioné sans
+                aucune intervention
               </p>
-              <button onClick={togglePopup}>Select Boards</button>
+              <button className="outlined-button" onClick={togglePopup}>
+                Select Boards
+              </button>
               <Popup isOpen={isPopupOpen} onClose={togglePopup} />
             </div>
           )}
@@ -124,8 +128,10 @@ const ModeSelector = ({ initialMode }) => {
           <h3>Mode Specific-On : </h3>
           {selectedMode === '3' && descriptionsVisible && (
             <div className="description">
-              <p>Cette mode allume touts les poto choisis</p>
-              <button onClick={togglePopup}>Select Boards</button>
+              <p>Cette mode allume touts les poteaux choisis</p>
+              <button className="outlined-button" onClick={togglePopup}>
+                Select Boards
+              </button>
               <Popup isOpen={isPopupOpen} onClose={togglePopup} />
             </div>
           )}
@@ -136,8 +142,10 @@ const ModeSelector = ({ initialMode }) => {
           <h3> Mode Specific-Off : </h3>
           {selectedMode === '4' && descriptionsVisible && (
             <div className="description">
-              <p>Cette mode éteint touts les poto choisis</p>
-              <button onClick={togglePopup}>Select Boards</button>
+              <p>Cette mode éteint touts les poteaux choisis</p>
+              <button className="outlined-button" onClick={togglePopup}>
+                Select Boards
+              </button>
               <Popup isOpen={isPopupOpen} onClose={togglePopup} />
             </div>
           )}
@@ -148,7 +156,7 @@ const ModeSelector = ({ initialMode }) => {
           <h3>Mode On : </h3>
           {selectedMode === '5' && descriptionsVisible && (
             <div className="description">
-              <p>Cette mode allume touts les potos</p>
+              <p>Cette mode allume touts les poteaux</p>
             </div>
           )}
         </Radio>
@@ -157,13 +165,15 @@ const ModeSelector = ({ initialMode }) => {
           <h3>Mode Off : </h3>
           {selectedMode === '6' && descriptionsVisible && (
             <div className="description">
-              <p>Cette mode éteint touts les potos</p>
+              <p>Cette mode éteint touts les poteaux</p>
             </div>
           )}
         </Radio>
       </Radio.Group>
-
-      <button onClick={updateModeInDatabase}>Update Mode</button>
+      <div className="mode-button"></div>
+      <button className="outlined-button" onClick={updateModeInDatabase}>
+        Update Mode
+      </button>
     </div>
   );
 };

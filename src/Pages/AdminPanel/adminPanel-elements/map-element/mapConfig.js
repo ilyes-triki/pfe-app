@@ -1,9 +1,15 @@
+import black from './black.png';
+import red from './red.png';
+import yellow from './yellow.png';
+
 export default {
   maptiler: {
     url: 'https://api.maptiler.com/maps/basic-v2/{z}/{x}/{y}.png?key=s2yd7mFrSzE4288lukuB',
     attribution: '',
   },
-  iconUrl: 'https://img.icons8.com/?size=64&id=16nqcGhvw7Bt&format=png',
+  blackIcon: black,
+  redIcon: red,
+  yellowIcon: yellow,
 };
 
 // let markers = [

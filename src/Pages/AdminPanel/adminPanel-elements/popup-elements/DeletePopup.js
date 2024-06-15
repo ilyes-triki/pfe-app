@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { doc, deleteDoc } from 'firebase/firestore';
 import { BoardContext } from '../../BoardsProvider.js';
 import { db as firestoreDb } from '../../../../config/firebase-config.js';
-import { Radio, message } from 'antd';
+import { message, Button, Checkbox } from 'antd';
 
 import './DeletePopup.css';
 
@@ -106,10 +106,14 @@ const DeletePopup = ({ isOpen, onClose }) => {
       <div className="popup-content-delete">
         <h2>Delete Coardinates</h2>
         {selectedToDeleteItems.length > 0 && (
-          <button onClick={unselect}>Unselect all</button>
+          <button className="outlined-button" onClick={unselect}>
+            Unselect all
+          </button>
         )}
         {selectedToDeleteItems.length === 0 && (
-          <button onClick={select}>Select all</button>
+          <button className="outlined-button" onClick={select}>
+            Select all
+          </button>
         )}
         <div className="scrollable-container">
           <ul>
@@ -117,26 +121,31 @@ const DeletePopup = ({ isOpen, onClose }) => {
               .sort(
                 (a, b) => a.id.match(/-b(\d+)/)[1] - b.id.match(/-b(\d+)/)[1]
               )
-              .map((item) => (
-                <li key={item.id}>
-                  <input
+              .map((item, index) => (
+                <li key={index}>
+                  <Checkbox
                     type="checkbox"
                     checked={selectedToDeleteItems.includes(item.id)}
                     onChange={() => handleCheckboxChangeAdd(item.id)}
-                  />
-                  {item.id} :
-                  <p>
-                    {' '}
-                    latitude : {item.latitude}, altitude : {item.altitude}
-                  </p>
+                  >
+                    {item.id} :
+                    <p>
+                      {' '}
+                      latitude : {item.latitude}, altitude : {item.altitude}
+                    </p>
+                  </Checkbox>
                 </li>
               ))}
           </ul>
         </div>
         {selectedToDeleteItems.length > 0 && (
-          <button onClick={handleDelete}>Delete Boards</button>
+          <Button danger onClick={handleDelete}>
+            Delete Boards
+          </Button>
         )}
-        <button onClick={onClose}>Close</button>
+        <button className="outlined-button" onClick={onClose}>
+          Close
+        </button>
       </div>
     </div>
   );

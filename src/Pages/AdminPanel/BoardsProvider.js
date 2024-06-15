@@ -127,6 +127,8 @@ export const BoardProvider = ({ children }) => {
     const intervalId = setInterval(async () => {
       const errorData = await fetchFirestoreErrors();
       setErrorMessages(errorData);
+      const rtdbBoards = await fetchRealtimeBoardsSync();
+      setRealtimeBoards(rtdbBoards);
     }, 5000);
 
     return () => {
@@ -135,9 +137,6 @@ export const BoardProvider = ({ children }) => {
     };
   }, []);
 
-  useEffect(() => {
-    console.log(errorMessages);
-  }, [errorMessages]);
   /**
    * Adds new boards to the local boards list if they are unique.
    *
@@ -154,6 +153,8 @@ export const BoardProvider = ({ children }) => {
       setFirestoreBoards(firestoreData);
       const realtimeData = await fetchRealtimeBoardsSync();
       setRealtimeBoards(realtimeData);
+      const errors = await fetchFirestoreErrors();
+      setErrorMessages(errors);
       updateCommonBoards(firestoreData, realtimeData);
     };
     fetchData();
@@ -170,6 +171,8 @@ export const BoardProvider = ({ children }) => {
         setFirestoreBoards,
         setLocalBoards,
         setCommonBoards,
+        errorMessages,
+        setErrorMessages,
       }}
     >
       {children}

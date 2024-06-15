@@ -1,25 +1,26 @@
 .outer-mode-selector {
-  /* background-color: #f3f0f0;
-  border: 1px solid rgba(15, 56, 161, 1);
-  box-shadow: 20px 10px 20px rgba(34, 27, 84, 0.2); */
-
-  /* From https://css.glass */
+  height: 80.5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   background: rgba(255, 249, 249, 0.34);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(8.3px);
   -webkit-backdrop-filter: blur(8.3px);
   border: 1px solid rgba(255, 249, 249, 0.29);
-
   padding: 20px;
   border-radius: 5px;
-  margin-bottom: 20px;
+  margin-bottom: 100px;
   width: 20vw;
+  max-height: 100%;
 }
 .inner-mode-selector {
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex-wrap: wrap;
 }
 .description {
   border: 1px solid rgba(15, 56, 161, 1);
@@ -35,10 +36,11 @@
   align-items: center;
   justify-content: center;
 }
-
-@media (max-width: 768px) {
-  .mode-selector {
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
+.title h2 {
+  word-break: break-word;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: bold;
+  font-size: 24px;
+  text-transform: capitalize;
+  color: #0f38a1;
 }
