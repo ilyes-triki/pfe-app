@@ -13,7 +13,7 @@ let ErrorWithNavbar = WithNavbar(NotFound);
 const router = createBrowserRouter([
   {
     path: '/',
-    element: HomeWithNavbar(),
+    element: HomePage(),
     errorElement: ErrorWithNavbar(),
   },
   {

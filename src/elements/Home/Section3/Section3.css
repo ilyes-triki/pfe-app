@@ -1,0 +1,163 @@
+body {
+    margin: 0;
+    font-family: "Figtree", sans-serif;
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+    background-image: linear-gradient(60deg, rgb(209, 196, 196), rgba(236, 230, 230));
+    min-height: 100vh;
+}
+
+.title {
+    font-size: 2rem;
+    font-family: 'Poppins', sans-serif;
+    /* Adjust font size */
+    font-weight: bold;
+    /* Bold font weight */
+    color: rgba(15, 56, 161, 1);
+    /* Text color */
+    text-align: center;
+    /* Center-align text */
+    margin-bottom: 20px;
+    /* Bottom margin */
+    /* Additional styles as needed */
+}
+.articles {
+    display: grid;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px;
+    grid-template-columns: repeat(auto-fill, minmax(calc(33.33% - 16px), 1fr));
+    /* Adjusted grid columns */
+    gap: 24px;
+}
+
+article {
+    --img-scale: 1.001;
+    --title-color: black;
+    --link-icon-translate: -20px;
+    --link-icon-opacity: 0;
+    position: relative;
+    border-radius: 16px;
+    box-shadow: none;
+    background: #fff;
+    transform-origin: center;
+    transition: all 0.4s ease-in-out;
+    overflow: hidden;
+}
+
+article a::after {
+    position: absolute;
+    inset-block: 0;
+    inset-inline: 0;
+    cursor: pointer;
+    content: "";
+}
+
+/* basic article elements styling */
+article h2 {
+    margin: 0 0 18px 0;
+    font-family: "Bebas Neue", cursive;
+    font-size: 1.3rem;
+    /* Adjusted font size */
+    letter-spacing: 0.06em;
+    color: var(--title-color);
+    transition: color 0.3s ease-out;
+}
+
+figure {
+    margin: 0;
+    padding: 0;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+}
+
+article img {
+    max-width: 100%;
+    transform-origin: center;
+    transform: scale(var(--img-scale));
+    transition: transform 0.4s ease-in-out;
+}
+
+.article-body {
+    padding: 16px;
+    /* Adjusted padding */
+}
+
+article a {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    color: rgba(15, 56, 161, 1);
+}
+
+article a:focus {
+    outline: 1px dotted rgba(15, 56, 161, 1);
+}
+
+article a .icon {
+    min-width: 24px;
+    width: 24px;
+    height: 24px;
+    margin-left: 5px;
+    transform: translateX(var(--link-icon-translate));
+    opacity: var(--link-icon-opacity);
+    transition: all 0.3s;
+}
+
+/* using the has() relational pseudo selector to update our custom properties */
+article:has(:hover, :focus) {
+    --img-scale: 1.1;
+    --title-color: rgba(15, 56, 161, 1);
+    --link-icon-translate: 0;
+    --link-icon-opacity: 1;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+}
+
+@media screen and (max-width: 1200px) {
+    .articles {
+        grid-template-columns: repeat(auto-fill, minmax(calc(50% - 12px), 1fr));
+        /* Adjust columns for medium screens */
+    }
+}
+
+@media screen and (max-width: 960px) {
+    .articles {
+        grid-template-columns: repeat(auto-fill, minmax(calc(100% - 24px), 1fr));
+        /* Adjust columns for smaller screens */
+    }
+}
+
+@container card (min-width: 380px) {
+    .article-wrapper {
+        display: grid;
+        grid-template-columns: 80px 1fr;
+        /* Adjusted grid columns */
+        gap: 16px;
+    }
+
+    .article-body {
+        padding-left: 0;
+    }
+
+    figure {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    figure img {
+        height: 100%;
+        aspect-ratio: 1;
+        object-fit: cover;
+    }
+}
+
+.sr-only:not(:focus):not(:active) {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}

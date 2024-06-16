@@ -1,0 +1,47 @@
+.subscription-container {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background-color: white;
+}
+
+.image-container {
+    flex: 1;
+}
+
+.subscription-image {
+    width: 70%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.text-container {
+    flex: 1;
+    margin-left: 20px;
+}
+
+.text-container h2 {
+    color: #002e5d;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.text-container p {
+    color: #333;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.subscribe-button {
+    background-color: #0056b3;
+    color: white;
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.subscribe-button:hover {
+    background-color: #004494;
+}
