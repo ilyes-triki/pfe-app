@@ -46,3 +46,10 @@
 .subscribe-button:hover {
   background-color: #004494;
 }
+@media (max-width: 768px) {
+  .subscription-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
