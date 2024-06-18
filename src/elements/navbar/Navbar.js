@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../Pages/LoginPage/AuthProvider';
 import { signOut } from 'firebase/auth';
 import { auth, db as firestoreDb } from '../../config/firebase-config';
-import { BellFilled, BellOutlined, BellTwoTone } from '@ant-design/icons';
+import { BellTwoTone } from '@ant-design/icons';
 import { BoardContext } from '../../Pages/AdminPanel/BoardsProvider';
 import { doc, deleteDoc } from 'firebase/firestore';
 
@@ -109,14 +109,6 @@ export default function Navbar() {
               trigger={['click']}
             >
               <Badge count={lastErrorCount} overflowCount={10}>
-                {/* <BellFilled
-                  style={{ fontSize: '30px' }}
-                  onClick={handleBadgeClick}
-                /> */}
-                {/* <BellOutlined
-                  style={{ fontSize: '30px' }}
-                  onClick={handleBadgeClick}
-                /> */}
                 <BellTwoTone
                   style={{ fontSize: '30px' }}
                   onClick={handleBadgeClick}

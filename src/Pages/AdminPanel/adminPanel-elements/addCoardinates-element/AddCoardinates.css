@@ -40,3 +40,8 @@
     align-items: center;
   }
 }
+@media (max-width: 768px) {
+  .outer-coardinates-control-panel {
+    width: 80vw;
+  }
+}

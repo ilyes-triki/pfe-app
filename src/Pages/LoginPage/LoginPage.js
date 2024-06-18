@@ -27,7 +27,9 @@ const LoginPage = () => {
   return (
     <div className="login">
       <div className="login-form">
-        <h2 className="logo">Login</h2>
+        <div className="title">
+          <h2>Login</h2>
+        </div>
         <span className="form-element-lable">Email</span>
         <div className="form-element">
           <Input

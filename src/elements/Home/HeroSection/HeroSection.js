@@ -1,14 +1,14 @@
 import React from 'react';
 import './HeroSection.css';
-
-import ledImage from '../../../Images/led3.jpg'
-
+import backgroundImg from '../../../Images/wallpapper.jpg'; // Ensure you have this image in the correct path
 
 const HeroSection = () => {
   return (
-    <div className="hero-container">
-      <div className="hero-overlay"></div>
-      <div className="hero-content">
+    <section
+      className="product-section"
+      style={{ backgroundImage: `url(${backgroundImg})` }}
+    >
+      <div className="product-content">
         <h1>HIT Cleanroom LED Troffer</h1>
         <p>
           The HIT Troffer combines visually comfortable performance with an
@@ -17,10 +17,10 @@ const HeroSection = () => {
           other controlled environments.
         </p>
         <a href="#" className="learn-more">
-          Learn More <i className="fas fa-arrow-right"></i>
+          Learn More
         </a>
       </div>
-    </div>
+    </section>
   );
 };
 

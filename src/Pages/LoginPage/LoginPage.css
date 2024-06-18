@@ -21,3 +21,8 @@
 .form-element-button {
   margin: 15% 0 0 0;
 }
+@media (max-width: 768px) {
+  .login-form {
+    margin: 5% 25%;
+  }
+}

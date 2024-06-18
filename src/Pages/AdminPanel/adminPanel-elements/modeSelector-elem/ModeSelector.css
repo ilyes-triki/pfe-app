@@ -44,3 +44,8 @@
   text-transform: capitalize;
   color: #0f38a1;
 }
+@media (max-width: 768px) {
+  .outer-mode-selector {
+    width: 80vw;
+  }
+}

@@ -1,42 +1,36 @@
 import React from 'react';
 import './Footer.css';
+import {
+  FacebookFilled,
+  LinkedinFilled,
+  YoutubeFilled,
+  InstagramFilled,
+} from '@ant-design/icons';
 
 const Footer = () => {
   return (
     <footer className="footer">
-      <ul className="footer-links">
-        <li>
-          <a href="#">Home</a>
-        </li>
-        <li>
-          <a href="#">About</a>
-        </li>
-        <li>
-          <a href="#">Contact</a>
-        </li>
-        <li>
-          <a href="#">Policy</a>
-        </li>
-      </ul>
-      <ul className="social-icons">
-        <li>
-          <a href="#">
-            <i className="fab fa-facebook-f"></i>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i className="fab fa-twitter"></i>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i className="fab fa-instagram"></i>
-          </a>
-        </li>
-      </ul>
-      <p>123 Street Name, City, Country</p>
-      <p>Phone: +1 234 567 890</p>
+      <div className="footer-content">
+        <p>© 2024 Acuity Brands, Inc. All rights reserved.</p>
+        <a href="#">Site Terms</a>
+        <a href="#">Privacy Statement</a>
+        <a href="#">Do Not Sell or Share My Personal Information</a>
+        <a href="#">Exercise My Rights</a>
+      </div>
+      <div className="footer-social">
+        <a href="#">
+          <FacebookFilled />
+        </a>
+        <a href="#">
+          <LinkedinFilled />
+        </a>
+        <a href="#">
+          <YoutubeFilled />
+        </a>
+        <a href="#">
+          <InstagramFilled />
+        </a>
+      </div>
     </footer>
   );
 };
